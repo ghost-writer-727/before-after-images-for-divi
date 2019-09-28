@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "divi-scripts": "1.0.0",
+    "divi-scripts": "1.0.1",
+    "grunt-po2mo": "^0.1.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },

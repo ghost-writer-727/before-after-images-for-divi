@@ -1,0 +1,193 @@
+# Copyright (C) 2019 Aaron Bolton
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Before + After Images for Divi 1.2.3\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/before-after-image-extension\n"
+"POT-Creation-Date: 2019-07-19 04:48:39+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n1.0.2\n"
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:16
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:21
+msgid "Before + After Images"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:26
+msgid "Alignment"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:28
+msgid "Sizing"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:36
+msgid "Animation"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:40
+msgid "Attributes"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:90
+msgid "Before Image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:93
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:117
+msgid "Upload an image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:94
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:118
+msgid "Choose an Image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:95
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:119
+msgid "Set As Image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:102
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:126
+msgid ""
+"Upload your desired image, or type in the URL to the image you would like "
+"to display."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:106
+msgid "Before Label"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:110
+msgid "Set the label for the before image. The default label is \"Before\"."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:114
+msgid "After Image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:130
+msgid "After Label"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:134
+msgid "Set the label for the after image. The default label is \"After\"."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:138
+msgid "Image Alternative Text"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:145
+msgid ""
+"This defines the HTML ALT text. A short description of your image can be "
+"placed here."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:150
+msgid "Image Title Text"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:157
+msgid "This defines the HTML Title text."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:162
+msgid "Image Size"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:171
+msgid "This defines the size of the image."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:176
+msgid "Slider Offset"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:180
+msgid "0%"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:181
+msgid "100%"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:182
+msgid "10%"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:185
+msgid "This defines how much of the before image is visible when the page loads."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:190
+msgid "Show Space Below The Image"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:194
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:219
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:233
+msgid "Yes"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:195
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:218
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:234
+msgid "No"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:200
+msgid "Here you can choose whether or not the image should have a space below it."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:203
+msgid "Image Alignment"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:210
+msgid "Here you can choose the image alignment."
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:214
+msgid "Force Fullwidth"
+msgstr ""
+
+#: includes/modules/BeforeAfterImage/BeforeAfterImage.php:229
+msgid "Always Center Image On Mobile"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Before + After Images for Divi"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This extension adds a Divi module that allows the user to create a simple "
+"composite Before/After image from two unique images at a set size."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Aaron Bolton"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.boltonstudios.com"
+msgstr ""

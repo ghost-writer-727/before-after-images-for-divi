@@ -27,7 +27,7 @@ class BAIE_BeforeAfterImageExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = '1.1.0';
 
 	/**
 	 * BAIE_BeforeAfterImageExtension constructor.

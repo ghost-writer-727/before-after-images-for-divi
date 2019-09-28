@@ -1,0 +1,12 @@
+/* CSS Document */
+.et-fb-modules-list .baie_before_after_image .et-fb-icon{
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0px !important;
+}
+.baie_before_after_image.twentytwenty-container .twentytwenty-before,
+.baie_before_after_image.twentytwenty-container .twentytwenty-after{
+    display: block !important;
+}
