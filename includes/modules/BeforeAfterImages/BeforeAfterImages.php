@@ -2,9 +2,31 @@
 
 class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 
-	public $slug       = 'baie_before_after_image';
+	/**
+	 * The identifier for this module.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string          Changing this value will break current installations.
+	 */
+	public $slug = 'baie_before_after_image';
+
+	/**
+	 * The module's level of compatibility with the Divi Visual Builder.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string          off (default), partial, or on
+	 */
 	public $vb_support = 'on';
 
+	/**
+	 * Credits that appear at the bottom of the module settings modal.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array           off (default), partial, or on
+	 */
 	protected $module_credits = array(
 		'module_uri' => 'https://www.boltonstudios.com/',
 		'author'     => 'Aaron Bolton',
@@ -13,6 +35,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
     
     // Initialize class
 	public function init() {
+        
 		$this->name = esc_html__( 'Before + After Images', 'before-after-images-for-divi' );
 		$this->icon_path = plugin_dir_path( __FILE__ ) . 'icon.svg';
         $this->settings_modal_toggles = array(

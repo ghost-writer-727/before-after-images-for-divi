@@ -9,6 +9,7 @@ class BeforeAfterImages extends Component {
     static slug = 'baie_before_after_image';
 
     constructor(props){
+
         super(props);
         
         // Get user input: slider offset.
@@ -44,7 +45,7 @@ class BeforeAfterImages extends Component {
                 this.twentyTwentyElement.style.width = '100%';
                 
                 // Set container background to display 'size not found' (visible if image is unavailable).
-                this.twentyTwentyContainer.style.background = 'url(//placeholder.pics/svg/376x220/DEDEDE/555555/Select%20Image%20&%20Size.) top left no-repeat';
+                this.twentyTwentyContainer.style.background = 'url(https://imgplaceholder.com/376x220/cccccc/757575/fa-image?font-size=64) top left no-repeat';
                 
                 // Get wrapper width
                 var twentyTwentyWrapperWidth = this.twentyTwentyElement.offsetWidth;
@@ -169,7 +170,7 @@ class BeforeAfterImages extends Component {
             beforeImageSourceParsed.href = beforeImageSource;
             var beforeImageSourcePathSplit = beforeImageSourceParsed.pathname.split(".");
             beforeImageSource = beforeImageSourceParsed.protocol + '//' + beforeImageSourceParsed.hostname + beforeImageSourcePathSplit[0] + '-' + sizeSelectedWidth + 'x' + sizeSelectedHeight + '.' + beforeImageSourcePathSplit[1];
-
+            
             // After image.
             var afterImageSourceParsed = document.createElement('a');
             afterImageSourceParsed.href = afterImageSource;
@@ -246,33 +247,37 @@ class BeforeAfterImages extends Component {
         }
         return (
             <Fragment>
-                <div class={twentyTwentyWrapperClasses} style={twentyTwentyStyle} ref={this.setTwentyTwentyElementRef}>
-                    <div class={twentyTwentyContainerClasses} style={containerStyle} ref={this.setTwentyTwentyContainerRef}>
-                        <img
-                            src={beforeImageSource}
-                            alt=""
-                            class="twentytwenty-before"
-                            style={beforeImageStyle}
-                            width={sizeSelectedWidth}
-                            height={sizeSelectedHeight}
-                            ref={this.setTwentyTwentyBeforeRef} 
-                        />
-                        <img
-                            src={afterImageSource}
-                            alt=""
-                            class="twentytwenty-after"
-                            style={afterImageStyle}
-                            width={sizeSelectedWidth}
-                            height={sizeSelectedHeight}
-                            ref={this.setTwentyTwentyAfterRef}
-                        />
-                        <div class="twentytwenty-overlay" style={overlayStyle}>
-                            <div class="twentytwenty-before-label" data-content={beforeImageLabel}></div>
-                            <div class="twentytwenty-after-label" data-content={afterImageLabel}></div>
-                        </div>
-                        <div class="twentytwenty-handle" style={handleStyle} data-slider-offset={sliderOffset} ref={this.setTwentyTwentyHandleRef}>
-                            <span class="twentytwenty-left-arrow"></span>
-                            <span class="twentytwenty-right-arrow"></span>
+                <div id="et-boc">
+                    <div class="et-l">
+                        <div class={twentyTwentyWrapperClasses} style={twentyTwentyStyle} ref={this.setTwentyTwentyElementRef}>
+                            <div class={twentyTwentyContainerClasses} style={containerStyle} ref={this.setTwentyTwentyContainerRef}>
+                                <img
+                                    src={beforeImageSource}
+                                    alt=""
+                                    class="twentytwenty-before"
+                                    style={beforeImageStyle}
+                                    width={sizeSelectedWidth}
+                                    height={sizeSelectedHeight}
+                                    ref={this.setTwentyTwentyBeforeRef} 
+                                />
+                                <img
+                                    src={afterImageSource}
+                                    alt=""
+                                    class="twentytwenty-after"
+                                    style={afterImageStyle}
+                                    width={sizeSelectedWidth}
+                                    height={sizeSelectedHeight}
+                                    ref={this.setTwentyTwentyAfterRef}
+                                />
+                                <div class="twentytwenty-overlay" style={overlayStyle}>
+                                    <div class="twentytwenty-before-label" data-content={beforeImageLabel}></div>
+                                    <div class="twentytwenty-after-label" data-content={afterImageLabel}></div>
+                                </div>
+                                <div class="twentytwenty-handle" style={handleStyle} data-slider-offset={sliderOffset} ref={this.setTwentyTwentyHandleRef}>
+                                    <span class="twentytwenty-left-arrow"></span>
+                                    <span class="twentytwenty-right-arrow"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import './jquery.twentytwenty.js';
 
 jQuery(function($) {
     
-    function loadImages(){
+    function loadBeforeAfterImages(){
         $( '.twentytwenty-container' ).twentytwenty();
         $( '.twentytwenty-wrapper' ).each( function( index ){
 
@@ -25,10 +25,10 @@ jQuery(function($) {
             var maxWidth = ( beforeImageWidth < afterImageWidth ) ? beforeImageWidth :  afterImageWidth;
             var maxHeight = ( beforeImageHeight  > afterImageHeight ) ? beforeImageHeight  :  afterImageHeight;
 
-            beforeImage.css( 'clip', 'rect(0px, ' + (maxWidth*sliderOffset) + 'px, ' + maxHeight + 'px, 0px)' );
-            afterImage.css( 'clip', 'rect(0px, ' + maxWidth + 'px, ' + maxHeight + 'px, ' + (maxWidth*sliderOffset) + 'px)' );
+            beforeImage.css( 'clip', 'rect(0px, ' + ( maxWidth * sliderOffset ) + 'px, ' + maxHeight + 'px, 0px)' );
+            afterImage.css( 'clip', 'rect(0px, ' + maxWidth + 'px, ' + maxHeight + 'px, ' + ( maxWidth * sliderOffset ) + 'px)' );
             $( this ).find( '.baie_before_after_image .twentytwenty-overlay' ).css( 'maxWidth', maxWidth );
-            $( this ).find( '.baie_before_after_image .twentytwenty-handle' ).css( 'left', maxWidth*sliderOffset );
+            $( this ).find( '.baie_before_after_image .twentytwenty-handle' ).css( 'left', maxWidth * sliderOffset );
 
             if( beforeImageLabel != '' ){
                 $( this ).find( '.baie_before_after_image .twentytwenty-before-label' ).attr( 'data-content', beforeImageLabel );
@@ -44,13 +44,14 @@ jQuery(function($) {
             // Abort if the user is in the Divi Builder
             return
         } else{
-            loadImages();
+            loadBeforeAfterImages();
         }
     });
     // Load images in Visual Builder
     if($("body").hasClass("et-fb")){
-        loadImages();
+        loadBeforeAfterImages();
     }
+    // Lazy Load helpers
     /*
     // Load images after lazy loading function runs
     $('.baie_before_after_image img[data-lazy-src]').on( 'load', function(){
