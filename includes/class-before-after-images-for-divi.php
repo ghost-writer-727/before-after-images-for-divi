@@ -1,6 +1,6 @@
 <?php
 
-class BAIE_BeforeAfterImageExtension extends DiviExtension {
+class Before_After_Images_For_Divi extends DiviExtension {
 
 	/**
 	 * The gettext domain for the extension's translations.
@@ -9,7 +9,7 @@ class BAIE_BeforeAfterImageExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $gettext_domain = 'baie-before-after-image-extension';
+	public $gettext_domain;
 
 	/**
 	 * The extension's WP Plugin name.
@@ -18,7 +18,7 @@ class BAIE_BeforeAfterImageExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $name = 'before-after-image-extension';
+	public $name;
 
 	/**
 	 * The extension's version
@@ -27,20 +27,20 @@ class BAIE_BeforeAfterImageExtension extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $version = '1.1.0';
+	public $version;
 
 	/**
-	 * BAIE_BeforeAfterImageExtension constructor.
+	 * Before_After_Images_For_Divi constructor.
 	 *
 	 * @param string $name
 	 * @param array  $args
 	 */
-	public function __construct( $name = 'before-after-image-extension', $args = array() ) {
+	public function __construct( $name = 'before-after-images-for-divi', $args = array() ) {
 		$this->plugin_dir     = plugin_dir_path( __FILE__ );
 		$this->plugin_dir_url = plugin_dir_url( $this->plugin_dir );
-
+        $this->version = '1.3.0';
+        $this->gettext_domain = 'before-after-images-for-divi';
 		parent::__construct( $name, $args );
 	}
 }
-
-new BAIE_BeforeAfterImageExtension;
+new Before_After_Images_For_Divi;

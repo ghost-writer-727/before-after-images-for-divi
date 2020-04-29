@@ -1,6 +1,6 @@
 <?php
 
-class BAIE_BeforeAfterImage extends ET_Builder_Module {
+class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 
 	public $slug       = 'baie_before_after_image';
 	public $vb_support = 'on';
@@ -13,19 +13,19 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
     
     // Initialize class
 	public function init() {
-		$this->name = esc_html__( 'Before + After Images', 'baie-before-after-image-extension' );
+		$this->name = esc_html__( 'Before + After Images', 'before-after-images-for-divi' );
 		$this->icon_path = plugin_dir_path( __FILE__ ) . 'icon.svg';
         $this->settings_modal_toggles = array(
 			'general'  => array(
 				'toggles' => array(
-					'main_content' => esc_html__( 'Before + After Images', 'baie-before-after-image-extension' )
+					'main_content' => esc_html__( 'Before + After Images', 'before-after-images-for-divi' )
 				),
 			),
 			'advanced' => array(
 				'toggles' => array(
-					'alignment'  => esc_html__( 'Alignment', 'baie-before-after-image-extension' ),
+					'alignment'  => esc_html__( 'Alignment', 'before-after-images-for-divi' ),
 					'width'      => array(
-						'title'    => esc_html__( 'Sizing', 'baie-before-after-image-extension' ),
+						'title'    => esc_html__( 'Sizing', 'before-after-images-for-divi' ),
 						'priority' => 65,
 					),
 				),
@@ -33,11 +33,11 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
 			'custom_css' => array(
 				'toggles' => array(
 					'animation' => array(
-						'title'    => esc_html__( 'Animation', 'baie-before-after-image-extension' ),
+						'title'    => esc_html__( 'Animation', 'before-after-images-for-divi' ),
 						'priority' => 90,
 					),
 					'attributes' => array(
-						'title'    => esc_html__( 'Attributes', 'baie-before-after-image-extension' ),
+						'title'    => esc_html__( 'Attributes', 'before-after-images-for-divi' ),
 						'priority' => 95,
 					),
 				),
@@ -87,23 +87,23 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
         // Define Module Settings
 		$output = array(
 			'src_before' => array(
-				'label'           => esc_html__( 'Before Image', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'Before Image', 'before-after-images-for-divi' ),
 				'type'               => 'upload',
 				'option_category'    => 'basic_option',
-				'upload_button_text' => esc_attr__( 'Upload an image', 'baie-before-after-image-extension' ),
-				'choose_text'        => esc_attr__( 'Choose an Image', 'baie-before-after-image-extension' ),
-				'update_text'        => esc_attr__( 'Set As Image', 'baie-before-after-image-extension' ),
+				'upload_button_text' => esc_attr__( 'Upload an image', 'before-after-images-for-divi' ),
+				'choose_text'        => esc_attr__( 'Choose an Image', 'before-after-images-for-divi' ),
+				'update_text'        => esc_attr__( 'Set As Image', 'before-after-images-for-divi' ),
 				'hide_metadata'      => true,
 				'affects'            => array(
 					'alt',
 					'title_text',
                     'size'
 				),
-				'description'        => esc_html__( 'Upload your desired image, or type in the URL to the image you would like to display.', 'baie-before-after-image-extension' ),
+				'description'        => esc_html__( 'Upload your desired image, or type in the URL to the image you would like to display.', 'before-after-images-for-divi' ),
 				'toggle_slug'        => 'main_content',
 			),
 			'label_before' => array(
-				'label'           => esc_html__( 'Before Label', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'Before Label', 'before-after-images-for-divi' ),
 				'type'            => 'text',
 				'option_category' => 'basic_option',
                 'default' => 'Before',
@@ -111,23 +111,23 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
 				'toggle_slug'     => 'main_content',
 			),
 			'src_after' => array(
-				'label'           => esc_html__( 'After Image', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'After Image', 'before-after-images-for-divi' ),
 				'type'               => 'upload',
 				'option_category'    => 'basic_option',
-				'upload_button_text' => esc_attr__( 'Upload an image', 'baie-before-after-image-extension' ),
-				'choose_text'        => esc_attr__( 'Choose an Image', 'baie-before-after-image-extension' ),
-				'update_text'        => esc_attr__( 'Set As Image', 'baie-before-after-image-extension' ),
+				'upload_button_text' => esc_attr__( 'Upload an image', 'before-after-images-for-divi' ),
+				'choose_text'        => esc_attr__( 'Choose an Image', 'before-after-images-for-divi' ),
+				'update_text'        => esc_attr__( 'Set As Image', 'before-after-images-for-divi' ),
 				'hide_metadata'      => true,
 				'affects'            => array(
 					'alt',
 					'title_text',
                     'size'
 				),
-				'description'        => esc_html__( 'Upload your desired image, or type in the URL to the image you would like to display.', 'baie-before-after-image-extension' ),
+				'description'        => esc_html__( 'Upload your desired image, or type in the URL to the image you would like to display.', 'before-after-images-for-divi' ),
 				'toggle_slug'        => 'main_content',
 			),
 			'label_after' => array(
-				'label'           => esc_html__( 'After Label', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'After Label', 'before-after-images-for-divi' ),
 				'type'            => 'text',
 				'option_category' => 'basic_option',
                 'default' => 'After',
@@ -135,31 +135,31 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
 				'toggle_slug'     => 'main_content',
 			),
 			'alt' => array(
-				'label'           => esc_html__( 'Image Alternative Text', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'Image Alternative Text', 'before-after-images-for-divi' ),
 				'type'            => 'text',
 				'option_category' => 'basic_option',
 				'depends_show_if' => 'on',
 				'depends_on'      => array(
 					'src',
 				),
-				'description'     => esc_html__( 'This defines the HTML ALT text. A short description of your image can be placed here.', 'baie-before-after-image-extension' ),
+				'description'     => esc_html__( 'This defines the HTML ALT text. A short description of your image can be placed here.', 'before-after-images-for-divi' ),
 				'tab_slug'        => 'custom_css',
 				'toggle_slug'     => 'attributes',
 			),
 			'title_text' => array(
-				'label'           => esc_html__( 'Image Title Text', 'baie-before-after-image-extension' ),
+				'label'           => esc_html__( 'Image Title Text', 'before-after-images-for-divi' ),
 				'type'            => 'text',
 				'option_category' => 'basic_option',
 				'depends_show_if' => 'on',
 				'depends_on'      => array(
 					'src',
 				),
-				'description'     => esc_html__( 'This defines the HTML Title text.', 'baie-before-after-image-extension' ),
+				'description'     => esc_html__( 'This defines the HTML Title text.', 'before-after-images-for-divi' ),
 				'tab_slug'        => 'custom_css',
 				'toggle_slug'     => 'attributes',
 			),
             'size' => array(
-                'label' => esc_html__( 'Image Size', 'baie-before-after-image-extension' ),
+                'label' => esc_html__( 'Image Size', 'before-after-images-for-divi' ),
                 'type' => 'select',
 				'depends_show_if' => 'on',
 				'depends_on' => array(
@@ -167,13 +167,13 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
                     'src_after'
 				),
                 'option_category' => 'basic_option',
-                'options' =>  $this->image_sizes, 'baie-before-after-image-extension',
+                'options' =>  $this->image_sizes, 'before-after-images-for-divi',
                 'description' => esc_html__( 'This defines the size of the image.' ),
                 'tab_slug' => 'custom_css',
                 'toggle_slug' => 'attributes'
             ),
             'slider_offset' => array(
-                'label' => esc_html__( 'Slider Offset', 'baie-before-after-image-extension' ),
+                'label' => esc_html__( 'Slider Offset', 'before-after-images-for-divi' ),
                 'type' => 'range',
                 'option_category' => 'basic_option',
 				'options'           => array(
@@ -257,6 +257,7 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
         // Initialize variables
         $images = '';
         $size_width = '';
+        $size_height = '';
         $is_src_svg = '';
         
         // Get selected image source URL's.
@@ -278,7 +279,7 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
             // Get selected size.
             $size = $this->props['size']; // Width: 376px. Height: 220px. (cropped).
             $size_explode = explode( '.', $size );
-            if( $size_explode[1] ){
+            if( array_key_exists( 1, $size_explode ) ){
                 // If $size does not contain multiple strings, no size was selected and the named size will be set to a default size.
                 $size_width = (int) filter_var( $size_explode[0], FILTER_SANITIZE_NUMBER_INT );
                 $size_height = (int) filter_var( $size_explode[1], FILTER_SANITIZE_NUMBER_INT );
@@ -567,4 +568,4 @@ class BAIE_BeforeAfterImage extends ET_Builder_Module {
     }
 }
 
-new BAIE_BeforeAfterImage;
+new Before_After_Images_For_Divi_Module;

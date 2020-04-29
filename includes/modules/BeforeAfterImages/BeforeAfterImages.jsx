@@ -4,8 +4,7 @@ import React, { Component, Fragment } from 'react';
 // Internal Dependencies
 import './style.css';
 
-
-class BeforeAfterImage extends Component {
+class BeforeAfterImages extends Component {
 
     static slug = 'baie_before_after_image';
 
@@ -281,5 +280,4 @@ class BeforeAfterImage extends Component {
         );
     }
 }
-
-export default BeforeAfterImage;
+export default BeforeAfterImages;

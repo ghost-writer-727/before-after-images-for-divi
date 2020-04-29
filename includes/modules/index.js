@@ -1,3 +1,3 @@
-import BeforeAfterImage from './BeforeAfterImage/BeforeAfterImage';
+import BeforeAfterImages from './BeforeAfterImages/BeforeAfterImages';
 
-export default [BeforeAfterImage];
+export default [BeforeAfterImages];
