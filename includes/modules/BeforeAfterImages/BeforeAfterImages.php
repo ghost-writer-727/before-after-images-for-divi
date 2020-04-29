@@ -7,7 +7,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var string          Changing this value will break current installations.
+	 * @var string      Changing this value will break current installations.
 	 */
 	public $slug = 'baie_before_after_image';
 
@@ -16,7 +16,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var string          off (default), partial, or on
+	 * @var string      off (default), partial, or on
 	 */
 	public $vb_support = 'on';
 
@@ -25,7 +25,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var array           off (default), partial, or on
+	 * @var array 
 	 */
 	protected $module_credits = array(
 		'module_uri' => 'https://www.boltonstudios.com/',
@@ -33,6 +33,14 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 		'author_uri' => 'https://www.boltonstudios.com/',
 	);
     
+    /**
+     * 
+     * @since 1.3.0
+     * 
+     * @var array $image_size_list
+     */
+    private $image_size_list;
+
     // Initialize class
 	public function init() {
         
@@ -101,14 +109,17 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 			'text'                  => false,
 			'button'                => false,
 		);
-        $this->image_sizes = self::baie_get_image_dimensions();
+        $this->image_size_list = $this->get_image_dimensions();
 	}
     
-    // Module settings are defined in the get_fields() method.
+    /** 
+     * Module settings are defined in the get_fields() method.
+     * 
+     * @return  array   $fields
+     * */ 
 	public function get_fields() {
         
-        // Define Module Settings
-		$output = array(
+		$fields = array(
 			'src_before' => array(
 				'label'           => esc_html__( 'Before Image', 'before-after-images-for-divi' ),
 				'type'               => 'upload',
@@ -190,7 +201,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
                     'src_after'
 				),
                 'option_category' => 'basic_option',
-                'options' =>  $this->image_sizes, 'before-after-images-for-divi',
+                'options' =>  $this->image_size_list, 'before-after-images-for-divi',
                 'description' => esc_html__( 'This defines the size of the image.' ),
                 'tab_slug' => 'custom_css',
                 'toggle_slug' => 'attributes'
@@ -260,14 +271,28 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 				'tab_slug'          => 'advanced',
 				'toggle_slug'       => 'alignment',
 			),
-		);
-        return $output;
-	}
-	public function get_alignment() {
+        );
+        return $fields;
+    }
+    
+    /**
+     * 
+     * @return mixed|string|void 
+     */
+	private function get_alignment() {
+
 		$alignment = isset( $this->props['align'] ) ? $this->props['align'] : '';
 		return et_pb_get_alignment( $alignment );
 	}
-    // Finish the implementation of the render() method so that it will generate the module's HTML output based on its props.
+    
+    /** 
+     * Render the module on the front end.
+     * 
+     * @param   array   $attrs
+     * @param   mixed|string|void|null   $content
+     * @param   string  $render_slug
+     * 
+     * */ 
 	public function render( $attrs, $content = null, $render_slug ) {
         
         // Get selected image labels.
@@ -297,7 +322,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
             $src_dir_name = $src_path_parts['dirname'];
             $src_file_name = $src_path_parts['filename'];
             $src_file_extension = $src_path_parts['extension'];
-            $src_placeholder = "//placeholder.pics/svg/376x220/DEDEDE/555555/Size%20not%20found.";
+            $src_placeholder = "https://imgplaceholder.com/376x220/cccccc/757575/fa-image?font-size=64";
 
             // Get selected size.
             $size = $this->props['size']; // Width: 376px. Height: 220px. (cropped).
@@ -422,7 +447,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
             $inline_css = 'style="'. $inline_styles .'"';
         }
         
-        //* Put it all together and return the output.
+        // Put it all together and return the output.
 		$output = sprintf(
 			'<div%3$s class="%2$s et_pb_image_wrap twentytwenty-container" %6$s>
 				%5$s
@@ -437,26 +462,8 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
             $inline_css
 		);
         return $output;
-	}
-    /**
-	 * Enqueues non-minified, hot reloaded javascript bundles.
-	 *
-	 * @since 3.1
-	 */
-	protected function _enqueue_debug_bundles() {
-		// Frontend Bundle
-		$site_url       = wp_parse_url( get_site_url() );
-		$hot_bundle_url = "http://localhost:3000/static/js/frontend-bundle.js";
-
-		wp_enqueue_script( "{$this->name}-frontend-bundle", $hot_bundle_url, $this->_bundle_dependencies['frontend'], $this->version, true );
-
-		if ( et_core_is_fb_enabled() ) {
-			// Builder Bundle
-			$hot_bundle_url = "http://localhost:3000/static/js/builder-bundle.js";
-
-			wp_enqueue_script( "{$this->name}-builder-bundle", $hot_bundle_url, $this->_bundle_dependencies['builder'], $this->version, true );
-		}
-	}
+    }
+    
     /**
      * Original function from https://codex.wordpress.org/Function_Reference/get_intermediate_image_sizes
      * Get size information for all currently-registered image sizes.
@@ -464,15 +471,20 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
      * @uses   get_intermediate_image_sizes()
      * @return array $sizes Data for all currently-registered image sizes.
      */
-     protected function get_image_sizes() {
+     private function get_image_sizes() {
+
         global $_wp_additional_image_sizes;
         $sizes = array();
+
         foreach ( get_intermediate_image_sizes() as $_size ) {
+
             if ( in_array( $_size, array('thumbnail', 'medium', 'medium_large', 'large') ) ) {
+
                 $sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
                 $sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
                 $sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
             } elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
+
                 $sizes[ $_size ] = array(
                     'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
                     'height' => $_wp_additional_image_sizes[ $_size ]['height'],
@@ -482,6 +494,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
         }
         return $sizes;
     }
+
     /**
      * Original function from https://wordpress.stackexchange.com/a/254064
      * Return the closest named size from an array of width and height values.
@@ -495,13 +508,18 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
      * @param  array|string $size   Image size. Accepts an array of width and height (in that order).
      * @return false|string $data   named image size e.g. 'thumbnail'.
      */
-    protected function get_named_size( $size ) {
-        $image_sizes = self::get_image_sizes();
+    private function get_named_size( $size ) {
+
+        $image_sizes = $this->get_image_sizes();
         $data = array();
+
         // Find the best match when '$size' is an array.
         if ( is_array( $size ) ) {
+
             $candidates = array();
+
             foreach ( $image_sizes as $_size => $data ) {
+
                 // If there's an exact match to an existing image size, short circuit.
                 if ( $data['width'] == $size[0] && $data['height'] == $size[1] ) {
                     $candidates[ $data['width'] * $data['height'] ] = array( $_size, $data );
@@ -515,6 +533,7 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
                 }
             }
             if ( ! empty( $candidates ) ) {
+
                 // Sort the array by size if we have more than one candidate.
                 if ( 1 < count( $candidates ) ) {
                     ksort( $candidates );
@@ -541,9 +560,16 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
         }
         return $data;
     }
-    // Simple function to sort an array by a specific key. Maintains index association.
-    // http://php.net/manual/en/function.sort.php
-    protected function array_sort($array, $on, $order=SORT_ASC){
+    
+    /**
+     * Simple function to sort an array by a specific key. Maintains index association.
+     * http://php.net/manual/en/function.sort.php
+     * @param mixed $array 
+     * @param mixed $on 
+     * @param int $order 
+     * @return array 
+     */
+    private function array_sort( $array, $on, $order=SORT_ASC){
         $new_array = array();
         $sortable_array = array();
         if (count($array) > 0) {
@@ -572,22 +598,32 @@ class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
         }
         return $new_array;
     }
-    protected function baie_get_image_dimensions(){
+
+    /**
+     * 
+     * @return string[] 
+     */
+    private function get_image_dimensions(){
+
         // Get the available image sizes.
-        $baie_image_sizes = self::get_image_sizes();
-        $baie_image_sizes = self::array_sort( $baie_image_sizes, 'width' ); // Sort sizes from smallest to largest.
-        $baie_image_dimensions = array( 'selectasize.' => 'Select a size.' );
-        foreach( $baie_image_sizes as $size ){
+        $image_sizes = $this->get_image_sizes();
+        $image_sizes = $this->array_sort( $image_sizes, 'width' ); // Sort sizes from smallest to largest.
+        $image_dimensions = array( 'selectasize.' => 'Select a size.' );
+
+        foreach( $image_sizes as $size ){
+
             $width = 'Width: ' . $size['width'] .'px.';
             $height = 'Height: '. $size['height'] .'px.';
             ( $size['crop'] ) ? $cropped = '(cropped).' : $cropped = '(best fit)';
             $size_str = $width .' '. $height .' '. $cropped;
+
             if( $size['width'] != 0 && $size['height'] != 0 && $cropped == '(cropped).' ){
-                $baie_image_dimensions += [ strtolower( preg_replace('/\s*/', '', $size_str) ) => $size_str ];
+
+                $image_dimensions += [ strtolower( preg_replace('/\s*/', '', $size_str) ) => $size_str ];
             }
         }
-        $baie_image_dimensions += [ 'fullsize.' => 'Full size.' ];
-        return $baie_image_dimensions;
+        $image_dimensions += [ 'fullsize.' => 'Full size.' ];
+        return $image_dimensions;
     }
 }
 
