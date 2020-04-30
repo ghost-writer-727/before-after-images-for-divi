@@ -20,7 +20,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
          *
          * @since 1.0.0
          *
-         * @var string      DO NOT CHANGE. Changing this value will break current installations.
+         * @var string      Do not change this property value. Changing this value will break current installations.
          */
         public $slug = 'baie_before_after_image';
 
@@ -318,7 +318,9 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             */
 
             // Get selected image source URL's.
-            $srcs = array( $attributes['src_before'], $attributes['src_after'] );
+            $src_before = isset( $attributes['src_before'] ) ? $attributes['src_before'] : '';
+            $src_after = isset( $attributes['src_after'] ) ? $attributes['src_after'] : '';
+            $srcs = array( $src_before, $src_after );
             $images = $this->get_images( $srcs, $attributes );
 
             // Construct the HTML output for the images.
@@ -417,7 +419,6 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     "margin-{$align_phone}" => ! empty( $align_phone ) && 'center' !== $align_phone ? '0' : '',
                 ),
             );
-
             et_pb_responsive_options()->generate_responsive_css( $align_values, '%%order_class%%', '', $render_slug, '', 'alignment' );
 
             // Module classnames
@@ -447,6 +448,44 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     break;
             }
             $inline_styles = 'style="'. $inline_css .'"';
+
+            //$inline_scripts = '';
+            $beforeLabel = ( isset( $attributes['label_before']) ) ? $attributes['label_before'] : '';
+            $inline_scripts = '<script>';
+            $inline_scripts .='
+            function loadBeforeAfterImages( target, before_label ){
+        
+                // Set Defaults
+                var baie_offset_pct = 0.5; 
+                var baie_orientation = "horizontal"; 
+                var baie_before_label = "Before";
+                var baie_after_label = "After";
+                var baie_no_overlay = false;
+                var baie_move_slider_on_hover = false; 
+                var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
+                var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
+                
+                console.log( "baie_before_label is " + baie_before_label);
+                baie_before_label = before_label;
+                console.log( "baie_before_label is " + baie_before_label);
+                jQuery( target ).twentytwenty({
+                    default_offset_pct: baie_offset_pct, 
+                    orientation: baie_orientation,
+                    before_label: baie_before_label,
+                    after_label: baie_after_label,
+                    no_overlay: baie_no_overlay,
+                    move_slider_on_hover: baie_move_slider_on_hover,
+                    move_with_handle_only: baie_move_with_handle_only,
+                    click_to_move: baie_click_to_move
+                });
+            }
+            ';
+            $inline_scripts .= '
+                jQuery(window).load(function() {
+                    loadBeforeAfterImages( ".baie_before_after_image_0.twentytwenty-container", "'. $beforeLabel .'" );
+              });
+            ';
+            $inline_scripts .= '</script>';
             
             // Put it all together and return the output.
             $output = sprintf(
@@ -462,6 +501,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 $parallax_image_background,
                 $inline_styles
             );
+            $output .= $inline_scripts;
             return $output;
         }
         
@@ -474,78 +514,93 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
          */
         private function get_images( $srcs, $attributes ){
 
+            // Initialize variables.
             $images = array();
-            $size_width = '';
-            $size_height = '';
+            $size_width = 376;
+            $size_height = 220;
 
             // Get selected image labels.
             $beforeLabel = ( isset( $attributes['label_before']) ) ? $attributes['label_before'] : '';
             $afterLabel = ( isset( $attributes['label_after']) ) ? $attributes['label_after'] : '';
             
-            // Get slider offset.
+            // Get selected slider offset.
             $sliderOffset = ( isset( $attributes['slider_offset']) ) ? $attributes['slider_offset'] : '';
 
-            foreach( $srcs as $src ){
-
-                $src_id = attachment_url_to_postid( $src );
-                if($src_id == ''){
-                    // Break if there is no src id, image missing, etc.
-                    break;
-                }
-                $src_url = parse_url( $src );
-                $src_path = $src_url[ 'path' ];
-                $src_path_parts = pathinfo( $src_path );
-                $src_file_extension = $src_path_parts['extension'];
-                $src_placeholder = "https://imgplaceholder.com/376x220/cccccc/757575/fa-image?font-size=64";
-
-                // Get selected size.
-                $size = $attributes['size']; // Width: 376px. Height: 220px. (cropped).
-                $size_explode = explode( '.', $size );
-                if( array_key_exists( 1, $size_explode ) ){
-
-                    // If $size does not contain multiple strings, no size was selected and the named size will be set to a default size.
-                    $size_width = (int) filter_var( $size_explode[0], FILTER_SANITIZE_NUMBER_INT );
-                    $size_height = (int) filter_var( $size_explode[1], FILTER_SANITIZE_NUMBER_INT );
-                }
-
-                // Get named size.
-                // If no size was selected, set the named size to "large".
-                if( $size === "selectasize." ){
-                    $named_size = "large";
-                } else if( $size === "fullsize." ){
-                    $named_size = "full";
-                } else{
-                    $named_size = self::get_named_size( array( $size_width, $size_height ) );
-                }
+            // Get selected image attributes.
+            $alt = ( isset( $attributes[ 'alt' ] ) ) ? $attributes[ 'alt' ] : '';
+            $title_text = ( isset( $attributes[ 'title_text' ] ) ) ? $attributes[ 'title_text' ] : '';
+            $src_placeholder = "https://imgplaceholder.com/376x220/cccccc/757575/fa-image?font-size=64";
             
-                // Get image source URL at named size.
-                $src_url = wp_get_attachment_image_src( $src_id, $named_size );
-
-                // If there is no source URL at the named size, use the image placeholder.
-                ( $src_url ) ? $src_url = $src_url[0] : $src_placeholder;
-                
-                // Get the image source set.
-                $src_set = wp_get_attachment_image_srcset( $src_id, $named_size );
-                ($src_set) ? $src_set_output = 'srcset="'. esc_attr( $src_set ) .'"' : $src_set_output ='';
-                
-                // Create a 'sizes' attribute value for the image.
-                $src_sizes = wp_calculate_image_sizes( $named_size, $src_url, wp_get_attachment_metadata( $src_id ), $src_id );  
-                ($src_sizes) ? $src_sizes_output = 'sizes="'. esc_attr( $src_sizes ) .'"' : $src_sizes_output ='';
-                
-                // Get selected image metadata
-                $alt = ( isset( $attributes[ 'alt' ] ) ) ? $attributes[ 'alt' ] : '';
-                $title_text = ( isset( $attributes[ 'title_text' ] ) ) ? $attributes[ 'title_text' ] : '';
-                
-                // Handle svg image behaviour
-                $is_src_svg = isset( $src_file_extension ) ? 'svg' === $src_file_extension : false;
+            // Use a placeholder image if the user did not select images. 
+            if( $srcs[0] == null || $srcs[0] == '' ){
                 
                 array_push( $images, array(
-                    'output' => '<img src="'. esc_attr( $src_url ) .'" '. $src_set_output .' '. $src_sizes_output .' data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" />',
+                    'output' => '<img src="'. esc_attr( $src_placeholder ) .'" data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" /><img src="'. esc_attr( $src_placeholder ) .'" data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" />',
                     'size_width' => $size_width,
                     'size_height' => $size_height,
-                    'is_svg' => $is_src_svg
+                    'is_svg' => false
                     )
                 );
+            } else{
+
+                // Extract properties from selected WordPress image objects.
+                foreach( $srcs as $src ){
+
+                    $src_id = attachment_url_to_postid( $src );
+                    if( $src_id == ''){
+                        // Break if there is no src id, image missing, etc.
+                        break;
+                    }
+                    $src_url = parse_url( $src );
+                    $src_path = $src_url[ 'path' ];
+                    $src_path_parts = pathinfo( $src_path );
+                    $src_file_extension = $src_path_parts['extension'];
+
+                    // Get selected size.
+                    $size = $attributes['size']; // Width: 376px. Height: 220px. (cropped).
+                    $size_explode = explode( '.', $size );
+                    if( array_key_exists( 1, $size_explode ) ){
+
+                        // If $size does not contain multiple strings, no size was selected and the named size will be set to a default size.
+                        $size_width = (int) filter_var( $size_explode[0], FILTER_SANITIZE_NUMBER_INT );
+                        $size_height = (int) filter_var( $size_explode[1], FILTER_SANITIZE_NUMBER_INT );
+                    }
+
+                    // Get named size.
+                    // If no size was selected, set the named size to "large".
+                    if( $size === "selectasize." ){
+                        $named_size = "large";
+                    } else if( $size === "fullsize." ){
+                        $named_size = "full";
+                    } else{
+                        $named_size = self::get_named_size( array( $size_width, $size_height ) );
+                    }
+                
+                    // Get image source URL at named size.
+                    $src_url = wp_get_attachment_image_src( $src_id, $named_size );
+
+                    // If there is no source URL at the named size, use the image placeholder.
+                    ( $src_url ) ? $src_url = $src_url[0] : $src_placeholder;
+                    
+                    // Get the image source set.
+                    $src_set = wp_get_attachment_image_srcset( $src_id, $named_size );
+                    ($src_set) ? $src_set_output = 'srcset="'. esc_attr( $src_set ) .'"' : $src_set_output ='';
+                    
+                    // Create a 'sizes' attribute value for the image.
+                    $src_sizes = wp_calculate_image_sizes( $named_size, $src_url, wp_get_attachment_metadata( $src_id ), $src_id );  
+                    ($src_sizes) ? $src_sizes_output = 'sizes="'. esc_attr( $src_sizes ) .'"' : $src_sizes_output ='';
+                    
+                    // Handle svg image behaviour
+                    $is_src_svg = isset( $src_file_extension ) ? 'svg' === $src_file_extension : false;
+                    
+                    array_push( $images, array(
+                        'output' => '<img src="'. esc_attr( $src_url ) .'" '. $src_set_output .' '. $src_sizes_output .' data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" />',
+                        'size_width' => $size_width,
+                        'size_height' => $size_height,
+                        'is_svg' => $is_src_svg
+                        )
+                    );
+                } 
             }
             return $images;
         }

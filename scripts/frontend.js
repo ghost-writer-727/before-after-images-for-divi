@@ -5,63 +5,72 @@ import './jquery.twentytwenty.js';
 
 jQuery(function($) {
     
-    function loadBeforeAfterImages(){
+    function loadBeforeAfterImages( target, before_label ){
         
-        $( '.twentytwenty-container' ).twentytwenty();
-        $( '.twentytwenty-wrapper' ).each( function( index ){
+        // Set Defaults
+        var baie_offset_pct = 0.5; // How much of the before image is visible when the page loads
+        var baie_orientation = 'horizontal'; // Orientation of the before and after images ('horizontal' or 'vertical')
+        var baie_before_label = 'Before'; // Set a custom before label
+        var baie_after_label = 'After'; // Set a custom after label
+        var baie_no_overlay = false; // Do not show the overlay with before and after
+        var baie_move_slider_on_hover = false; // Move slider on mouse hover?
+        var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
+        var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
 
-            /**
-             * Get the before + after image dimensions
-             * Determined by options selected in module settings.
-             */
-            // Before Image
-            var beforeImage = $( this ).find( '.twentytwenty-before' );
-            var beforeImageWidth = beforeImage.width();
-            var beforeImageHeight = beforeImage.height();
+       
 
-            // After Image
-            var afterImage = $( this ).find( '.twentytwenty-after' );
-            var afterImageWidth = afterImage.width();
-            var afterImageHeight = afterImage.height();
+            /*var beforeImage = $( this ).children( '.twentytwenty-before' );
+            var beforeImageLabel = beforeImage.attr( 'data-before-label' );
+            console.log( 'baie_before_label is ' + baie_before_label );
+            if( beforeImageLabel != '' ){
+                baie_before_label = beforeImageLabel;
+            }*/
+            console.log( 'baie_before_label is ' + baie_before_label );
 
-            /**
-             * Set the max width and max height of the before + after image slider.
-             */
-            var maxWidth = ( beforeImageWidth < afterImageWidth ) ? beforeImageWidth :  afterImageWidth;
-            var maxHeight = ( beforeImageHeight  > afterImageHeight ) ? beforeImageHeight  :  afterImageHeight;
-            
-            /**
-             * Get the before + after image slider offset position.
-             * Determined by options selected in module settings.
-             */
-            var sliderOfferString = beforeImage.attr( 'data-slider-offset' );
-            var sliderOffset = parseInt(sliderOfferString)/100;
-            
-            /**
-             * Combine selected width and height with slider offset to clip images appropriately.
-             */
-            beforeImage.css( 'clip', 'rect(0px, ' + ( maxWidth * sliderOffset ) + 'px, ' + maxHeight + 'px, 0px)' );
-            afterImage.css( 'clip', 'rect(0px, ' + maxWidth + 'px, ' + maxHeight + 'px, ' + ( maxWidth * sliderOffset ) + 'px)' );
-            $( this ).find( '.baie_before_after_image .twentytwenty-overlay' ).css( 'maxWidth', maxWidth );
-            $( this ).find( '.baie_before_after_image .twentytwenty-handle' ).css( 'left', maxWidth * sliderOffset );
-
+            baie_before_label = before_label;
+            console.log( 'baie_before_label is ' + baie_before_label );
+            // Update variables
             /**
              * Change the before/after image labels
              * Determined by options selected in module settings.
-             */
-            // Before
+             *
+            // Before Label
+            var beforeImage = $( this ).find( '.twentytwenty-before' );
             var beforeImageLabel = beforeImage.attr( 'data-before-label' );
             if( beforeImageLabel != '' ){
-                $( this ).find( '.baie_before_after_image .twentytwenty-before-label' ).attr( 'data-content', beforeImageLabel );
+                baie_before_label = beforeImageLabel;
             }
 
-            // After
+            // After Label
+            var afterImage = $( this ).find( '.twentytwenty-after' );
             var afterImageLabel = afterImage.attr( 'data-after-label' );
             if( afterImageLabel != '' ){
-                $( this ).find( '.baie_before_after_image .twentytwenty-after-label' ).attr( 'data-content', afterImageLabel )
+                baie_after_label = beforeImageLabel;
             };
-        });
+                
+            /**
+             * Get the before + after image slider offset position.
+             * Determined by options selected in module settings.
+             *
+            var sliderOfferString = beforeImage.attr( 'data-slider-offset' );
+            var sliderOffset = parseInt(sliderOfferString)/100;
+            if( sliderOfferString != '' ){
+                baie_offset_pct = sliderOffset;
+            }*/
+
+            $( target ).twentytwenty({
+                default_offset_pct: baie_offset_pct, 
+                orientation: baie_orientation,
+                before_label: baie_before_label,
+                after_label: baie_after_label,
+                no_overlay: baie_no_overlay,
+                move_slider_on_hover: baie_move_slider_on_hover,
+                move_with_handle_only: baie_move_with_handle_only,
+                click_to_move: baie_click_to_move
+            });
     }
+    
+    /*
     // Load images when the window loads
     $(window).on( 'load', function(){
         if($("body").hasClass("et-fb")){
@@ -75,6 +84,8 @@ jQuery(function($) {
     if($("body").hasClass("et-fb")){
         loadBeforeAfterImages();
     }
+    */
+    
     // Lazy Load helpers
     /*
     // Load images after lazy loading function runs
