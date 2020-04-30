@@ -7,7 +7,7 @@ Author:      Aaron Bolton
 Author URI:  https://www.boltonstudios.com
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: baie-before-after-image-extension
+Text Domain: before-after-images-for-divi
 Domain Path: /languages
 
 Before + After Images for Divi is free software: you can redistribute it and/or modify
