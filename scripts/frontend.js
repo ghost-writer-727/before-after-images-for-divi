@@ -5,30 +5,51 @@ import './jquery.twentytwenty.js';
 
 jQuery(function($) {
     
-    function loadBeforeAfterImages( target, before_label ){
-        
-        // Set Defaults
-        var baie_offset_pct = 0.5; // How much of the before image is visible when the page loads
-        var baie_orientation = 'horizontal'; // Orientation of the before and after images ('horizontal' or 'vertical')
-        var baie_before_label = 'Before'; // Set a custom before label
-        var baie_after_label = 'After'; // Set a custom after label
-        var baie_no_overlay = false; // Do not show the overlay with before and after
-        var baie_move_slider_on_hover = false; // Move slider on mouse hover?
-        var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
-        var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
+    function loadBeforeAfterImages(){
 
-       
+        $( '#baie_id_0.twentytwenty-container' ).each(function(){
 
-            /*var beforeImage = $( this ).children( '.twentytwenty-before' );
+            // Set Defaults
+            var baie_offset_pct = 0.5; // How much of the before image is visible when the page loads
+            var baie_orientation = 'horizontal'; // Orientation of the before and after images ('horizontal' or 'vertical')
+            var baie_before_label = 'Before'; // Set a custom before label
+            var baie_after_label = 'After'; // Set a custom after label
+            var baie_no_overlay = false; // Do not show the overlay with before and after
+            var baie_move_slider_on_hover = false; // Move slider on mouse hover?
+            var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
+            var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
+
+            var beforeImage = $( this ).find( '.twentytwenty-before' );
             var beforeImageLabel = beforeImage.attr( 'data-before-label' );
-            console.log( 'baie_before_label is ' + baie_before_label );
-            if( beforeImageLabel != '' ){
-                baie_before_label = beforeImageLabel;
-            }*/
-            console.log( 'baie_before_label is ' + baie_before_label );
+            //console.log( $( this ) );
+            var beforeImageTest = jQuery( '#baie_id_0.twentytwenty-container' ).find( '.twentytwenty-before' );
+            var beforeImageLabelTest = beforeImageTest.attr( 'data-before-label' );
+            console.log( 'beforeImageLabelTest is ' + beforeImageLabelTest );
 
-            baie_before_label = before_label;
-            console.log( 'baie_before_label is ' + baie_before_label );
+            var element = $( '#baie_id_0.twentytwenty-container' );
+            console.log("element is...");
+            console.log(element);
+
+            var thisElement = $( this );
+            console.log("thisElement is...");
+            console.log(thisElement);
+
+            if(element == thisElement){
+                console.log("element == thisElement is true.");
+            } else{
+                console.log("element == thisElement is false.");
+            }
+
+            var elementBeforeImage = element.find( '.twentytwenty-before' );
+            var elementBeforeImageLabel = elementBeforeImage.attr( 'data-before-label' );
+            console.log("elementBeforeImageLabel is...");
+            console.log( elementBeforeImageLabel );
+
+            var thisElementBeforeImage = thisElement.find( '.twentytwenty-before' );
+            var thisElementBeforeImageLabel = thisElementBeforeImage.attr( 'data-before-label' );
+            console.log("thisElementBeforeImageLabel is...");
+            console.log(thisElementBeforeImageLabel)
+
             // Update variables
             /**
              * Change the before/after image labels
@@ -58,7 +79,7 @@ jQuery(function($) {
                 baie_offset_pct = sliderOffset;
             }*/
 
-            $( target ).twentytwenty({
+            $( this ).twentytwenty({
                 default_offset_pct: baie_offset_pct, 
                 orientation: baie_orientation,
                 before_label: baie_before_label,
@@ -68,8 +89,11 @@ jQuery(function($) {
                 move_with_handle_only: baie_move_with_handle_only,
                 click_to_move: baie_click_to_move
             });
+        });
     }
-    
+    $(window).on( 'load', function(){
+        loadBeforeAfterImages();
+    });
     /*
     // Load images when the window loads
     $(window).on( 'load', function(){

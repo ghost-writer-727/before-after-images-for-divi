@@ -449,44 +449,8 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             }
             $inline_styles = 'style="'. $inline_css .'"';
 
-            //$inline_scripts = '';
-            $beforeLabel = ( isset( $attributes['label_before']) ) ? $attributes['label_before'] : '';
-            $inline_scripts = '<script>';
-            $inline_scripts .='
-            function loadBeforeAfterImages( target, before_label ){
-        
-                // Set Defaults
-                var baie_offset_pct = 0.5; 
-                var baie_orientation = "horizontal"; 
-                var baie_before_label = "Before";
-                var baie_after_label = "After";
-                var baie_no_overlay = false;
-                var baie_move_slider_on_hover = false; 
-                var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
-                var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
-                
-                console.log( "baie_before_label is " + baie_before_label);
-                baie_before_label = before_label;
-                console.log( "baie_before_label is " + baie_before_label);
-                jQuery( target ).twentytwenty({
-                    default_offset_pct: baie_offset_pct, 
-                    orientation: baie_orientation,
-                    before_label: baie_before_label,
-                    after_label: baie_after_label,
-                    no_overlay: baie_no_overlay,
-                    move_slider_on_hover: baie_move_slider_on_hover,
-                    move_with_handle_only: baie_move_with_handle_only,
-                    click_to_move: baie_click_to_move
-                });
-            }
-            ';
-            $inline_scripts .= '
-                jQuery(window).load(function() {
-                    loadBeforeAfterImages( ".baie_before_after_image_0.twentytwenty-container", "'. $beforeLabel .'" );
-              });
-            ';
-            $inline_scripts .= '</script>';
-            
+            $baie_id = 0;
+
             // Put it all together and return the output.
             $output = sprintf(
                 '<div%3$s class="%2$s et_pb_image_wrap twentytwenty-container" %6$s>
@@ -496,12 +460,13 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 </div>',
                 $images_output,
                 $this->module_classname( $render_slug ),
-                $this->module_id(),
+                //$this->module_id(),
+                ' id="baie_id_' . $baie_id .'"',
                 $video_background,
                 $parallax_image_background,
                 $inline_styles
             );
-            $output .= $inline_scripts;
+            $baie_id++;
             return $output;
         }
         
