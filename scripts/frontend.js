@@ -22,9 +22,9 @@ jQuery(function($) {
             
             // DEBUG
             //console.log( $( this ) );
-            
-            c++; // Count loops
 
+            c++; // Count loops
+/*
             var beforeImageTest = jQuery( '.twentytwenty-container > img' ).find( '.baie_before_image' );
             var beforeImageLabelTest = beforeImageTest.attr( 'data-before-label' );
             console.log( 'beforeImageLabelTest is ' + beforeImageLabelTest );
@@ -54,7 +54,7 @@ jQuery(function($) {
             console.log(thisElementBeforeImageLabel)
 
             // END DEBUG
-            
+            */
             // Update variables
             /**
              * Change the before/after image labels
@@ -73,6 +73,8 @@ jQuery(function($) {
             if( afterImageLabel != '' ){
                 baie_after_label = afterImageLabel;
             };
+
+            console.log("afterImageLabel is " + afterImageLabel);
                 
             /**
              * Slider offset position.

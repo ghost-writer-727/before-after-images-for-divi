@@ -1,11 +1,11 @@
 === Before + After Images for Divi ===
 Contributors: boltonstudios
 Donate link: http://ko-fi.com/boltonstudios
-Tags: divi, divi builder, elegant themes, elegantthemes, before, after
+Tags: divi, before, after, slider, comparison
 Requires at least: 4.0.0
-Tested up to: 5.1
+Tested up to: 5.4.1
 Requires PHP: 7.1
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,12 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 2. Image size selection.
 
 == Changelog ==
+
+= 1.3.0 =
+* Update: Added more data attributes to images to support new lazy load exclusions.
+* Update: Audited plugin and improved stability by rewriting many functions.
+* Update: Improved readability of code.
+* Tested for compatibility with latest versions of Divi and WordPress.
 
 = 1.2.3 =
 * Bug Fix: Fixed multiple errors shown when WP_DEBUG is set to 'true'.

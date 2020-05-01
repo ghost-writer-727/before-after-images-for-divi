@@ -528,10 +528,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
 
                 // Extract properties from selected WordPress image objects.
                 foreach( $srcs as $src ){
-
-                    $imageClass = $imageClass[ $i ];
-                    $imageClass .= ' skip-lazy';
-
+                    
                     $src_id = attachment_url_to_postid( $src );
                     if( $src_id == ''){
                         // Break if there is no src id, image missing, etc.
@@ -579,6 +576,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     // Handle svg image behaviour
                     $is_src_svg = isset( $src_file_extension ) ? 'svg' === $src_file_extension : false;
                     
+                    // Construct HTML image elements.
                     $image_string = sprintf('<img src="%1$s" %2$s %3$s data-before-label="%4$s" data-after-label="%5$s" data-slider-offset="%6$s" %10$s alt="%7$s" title="%8$s" class="%9$s" />',
                         esc_attr( $src_url ),
                         $src_set_output,
@@ -588,10 +586,10 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                         esc_attr( $sliderOffset ),
                         esc_attr( $alt ),
                         esc_attr( $title_text ),
-                        esc_attr( $imageClass ),
+                        esc_attr( $imageClass[ $i ] . ' skip-lazy' ),
                         $lazy_load_attr,
                     );
-
+                    
                     array_push( $images, array(
                         'output' => $image_string,
                         'size_width' => $size_width,
