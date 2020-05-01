@@ -9,11 +9,11 @@ Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This extension adds a Divi module that allows the user to create a simple composite Before/After image from two images at a set size.
+Create a composite Before/After image slider in the Divi Visual Builder.
 
 == Description ==
 
-*Before + After Images for Divi* adds a new Divi Builder module that allows the user to create a simple composite Before/After image from two images at a set size.
+*Before + After Images for Divi* adds a new Divi Builder module that allows the user to create a Before/After image slider.
 
 * Compatible with the Visual Builder.
 * Uses cropped image sizes within the Divi Builder module (image size selection).
@@ -59,9 +59,9 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 == Changelog ==
 
 = 1.3.0 =
-* Update: Added more data attributes to images to support new lazy load exclusions.
-* Update: Audited plugin and improved stability by rewriting many functions.
-* Update: Improved readability of code.
+* Update: Improved stability, readability and organization of codebase by rewriting many functions.
+* New Feature: Added attributes to images to support new lazy load exclusions.
+* New Feature: Replaced placeholder image with default Divi image SVG placeholder.
 * Tested for compatibility with latest versions of Divi and WordPress.
 
 = 1.2.3 =

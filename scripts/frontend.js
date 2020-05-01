@@ -6,7 +6,7 @@ import './jquery.twentytwenty.js';
 jQuery(function($) {
     
     function loadBeforeAfterImages(){
-        var c = 0;
+        
         $( '.twentytwenty-container' ).each(function(){
             
             // Set Defaults
@@ -19,42 +19,6 @@ jQuery(function($) {
             var baie_move_with_handle_only = true; // Allow a user to swipe anywhere on the image to control slider movement. 
             var baie_click_to_move = false; // Allow a user to click (or tap) anywhere on the image to move the slider to that location.
 
-            
-            // DEBUG
-            //console.log( $( this ) );
-
-            c++; // Count loops
-/*
-            var beforeImageTest = jQuery( '.twentytwenty-container > img' ).find( '.baie_before_image' );
-            var beforeImageLabelTest = beforeImageTest.attr( 'data-before-label' );
-            console.log( 'beforeImageLabelTest is ' + beforeImageLabelTest );
-
-            var element = $( '.twentytwenty-container' );
-            console.log("element is...");
-            console.log(element);
-
-            var thisElement = $( this );
-            console.log("thisElement is...");
-            console.log(thisElement);
-
-            if(element == thisElement){
-                console.log("element == thisElement is true.");
-            } else{
-                console.log("element == thisElement is false.");
-            }
-
-            var elementBeforeImage = element.find( '.baie_before_image' );
-            var elementBeforeImageLabel = elementBeforeImage.attr( 'data-before-label' );
-            console.log("elementBeforeImageLabel is...");
-            console.log( elementBeforeImageLabel );
-
-            var thisElementBeforeImage = thisElement.find( '.baie_before_image' );
-            var thisElementBeforeImageLabel = thisElementBeforeImage.attr( 'data-before-label' );
-            console.log("thisElementBeforeImageLabel is...");
-            console.log(thisElementBeforeImageLabel)
-
-            // END DEBUG
-            */
             // Update variables
             /**
              * Change the before/after image labels
@@ -73,8 +37,6 @@ jQuery(function($) {
             if( afterImageLabel != '' ){
                 baie_after_label = afterImageLabel;
             };
-
-            console.log("afterImageLabel is " + afterImageLabel);
                 
             /**
              * Slider offset position.
@@ -96,53 +58,8 @@ jQuery(function($) {
                 click_to_move: baie_click_to_move
             });
         });
-        console.log("loadBeforeAfterImages ran " + c + " times.");
     }
     $(window).on( 'load', function(){
         loadBeforeAfterImages();
     });
-    /*
-    // Load images when the window loads
-    $(window).on( 'load', function(){
-        if($("body").hasClass("et-fb")){
-            // Abort if the user is in the Divi Builder
-            return
-        } else{
-            loadBeforeAfterImages();
-        }
-    });
-    // Load images in Visual Builder
-    if($("body").hasClass("et-fb")){
-        loadBeforeAfterImages();
-    }
-    */
-    
-    // Lazy Load helpers
-    /*
-    // Load images after lazy loading function runs
-    $('.baie_before_after_image img[data-lazy-src]').on( 'load', function(){
-        if($("body").hasClass("et-fb")){
-            // Abort if the user is in the Divi Builder
-            return
-        } else{
-            loadImages();
-        }
-    });
-    $('.baie_before_after_image img[data-lazy-type]').on( 'load', function(){
-        if($("body").hasClass("et-fb")){
-            // Abort if the user is in the Divi Builder
-            return
-        } else{
-            loadImages();
-        }
-    });
-    $('.baie_before_after_image img.lazy-loaded').on( 'load', function(){
-        if($("body").hasClass("et-fb")){
-            // Abort if the user is in the Divi Builder
-            return
-        } else{
-            loadImages();
-        }
-    });
-    */
 });

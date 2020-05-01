@@ -308,24 +308,20 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
          * @param   string  $render_slug
          * */ 
         public function render( $attributes, $content = null, $render_slug ) {
-            
-            /*
-            echo "ATTRIBUTES";
-            var_dump( $attributes );
 
-            echo "PROPS";
-            var_dump( $this->props );
-            */
-
-            // Get selected image source URL's.
-            $src_before = isset( $attributes['src_before'] ) ? $attributes['src_before'] : '';
-            $src_after = isset( $attributes['src_after'] ) ? $attributes['src_after'] : '';
-            $srcs = array( $src_before, $src_after );
-            $images = $this->get_images( $srcs, $attributes );
-
-            // Construct the HTML output for the images.
+            //var_dump($this->props);
+            // Set defalt values.
             $is_src_svg = false;
             $max_width = 0;
+
+            // Extract image properties.
+            $size = isset( $attributes[ 'size' ] ) ? $attributes[ 'size' ] : '';
+
+            // Get selected image source URL's and construct the HTML output for the images.
+            $src_before = isset( $attributes['src_before'] ) ? $attributes['src_before'] : '';
+            $src_after = isset( $attributes['src_after'] ) ? $attributes['src_after'] : '';
+            $src_pair = array( $src_before, $src_after );
+            $images = $this->get_images( $src_pair, $attributes );
             $images_output = '';
             foreach( $images as $image){
 
@@ -459,7 +455,6 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 $images_output,
                 $this->module_classname( $render_slug ),
                 $this->module_id(),
-                //' id="baie_id_' . $baie_id .'"',
                 $video_background,
                 $parallax_image_background,
                 $inline_styles
@@ -486,7 +481,10 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 'baie_after_image'
             );
 
-            // The attributes are part of a cooperation between plugin authors of LazyLoad solutions to standardize exclusions.
+            /**
+             * According to WP Rocket, these attributes are part of a cooperation between LazyLoad plugin authors
+             * to standardize exclusions.
+             * */ 
             $lazy_load_attr = 'data-skip-lazy data-no-lazy';
 
             // Get selected image labels.
@@ -499,7 +497,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             // Get selected image attributes.
             $alt = ( isset( $attributes[ 'alt' ] ) ) ? $attributes[ 'alt' ] : '';
             $title_text = ( isset( $attributes[ 'title_text' ] ) ) ? $attributes[ 'title_text' ] : '';
-            $src_placeholder = "https://imgplaceholder.com/376x220/cccccc/757575/fa-image?font-size=64";
+            $src_placeholder = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA4MCIgaGVpZ2h0PSI1NDAiIHZpZXdCb3g9IjAgMCAxMDgwIDU0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0VCRUJFQiIgZD0iTTAgMGgxMDgwdjU0MEgweiIvPgogICAgICAgIDxwYXRoIGQ9Ik00NDUuNjQ5IDU0MGgtOTguOTk1TDE0NC42NDkgMzM3Ljk5NSAwIDQ4Mi42NDR2LTk4Ljk5NWwxMTYuMzY1LTExNi4zNjVjMTUuNjItMTUuNjIgNDAuOTQ3LTE1LjYyIDU2LjU2OCAwTDQ0NS42NSA1NDB6IiBmaWxsLW9wYWNpdHk9Ii4xIiBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz4KICAgICAgICA8Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjA1IiBmaWxsPSIjMDAwIiBjeD0iMzMxIiBjeT0iMTQ4IiByPSI3MCIvPgogICAgICAgIDxwYXRoIGQ9Ik0xMDgwIDM3OXYxMTMuMTM3TDcyOC4xNjIgMTQwLjMgMzI4LjQ2MiA1NDBIMjE1LjMyNEw2OTkuODc4IDU1LjQ0NmMxNS42Mi0xNS42MiA0MC45NDgtMTUuNjIgNTYuNTY4IDBMMTA4MCAzNzl6IiBmaWxsLW9wYWNpdHk9Ii4yIiBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz4KICAgIDwvZz4KPC9zdmc+Cg==";
             
             // Use a placeholder image if the user did not select images. 
             if( $srcs[0] == null || $srcs[0] == '' ){
@@ -556,15 +554,21 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     } else if( $size === "fullsize." ){
                         $named_size = "full";
                     } else{
-                        $named_size = self::get_named_size( array( $size_width, $size_height ) );
+                        $named_size = $this->get_named_size( array( $size_width, $size_height ) );
                     }
-                
+                    
                     // Get image source URL at named size.
                     $src_url = wp_get_attachment_image_src( $src_id, $named_size );
 
                     // If there is no source URL at the named size, use the image placeholder.
                     ( $src_url ) ? $src_url = $src_url[0] : $src_placeholder;
-                    
+
+                    // For full size images, update size and height values with data from WordPress.
+                    if( $size === "fullsize." ){
+                        $size_width = $src_url[1];
+                        $size_height = $src_url[2];
+                    }
+
                     // Get the image source set.
                     $src_set = wp_get_attachment_image_srcset( $src_id, $named_size );
                     ($src_set) ? $src_set_output = 'srcset="'. esc_attr( $src_set ) .'"' : $src_set_output ='';
