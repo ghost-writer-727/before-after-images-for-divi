@@ -58,7 +58,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
         public function init() {
             
             $this->name = esc_html__( 'Before + After Images', 'before-after-images-for-divi' );
-            $this->icon_path = plugin_dir_path( __FILE__ ) . 'icon.svg';
+            $this->icon = '&';
             $this->settings_modal_toggles = array(
                 'general'  => array(
                     'toggles' => array(
