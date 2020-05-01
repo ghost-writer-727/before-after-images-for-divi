@@ -449,8 +449,6 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             }
             $inline_styles = 'style="'. $inline_css .'"';
 
-            $baie_id = 0;
-
             // Put it all together and return the output.
             $output = sprintf(
                 '<div%3$s class="%2$s et_pb_image_wrap twentytwenty-container" %6$s>
@@ -460,13 +458,12 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 </div>',
                 $images_output,
                 $this->module_classname( $render_slug ),
-                //$this->module_id(),
-                ' id="baie_id_' . $baie_id .'"',
+                $this->module_id(),
+                //' id="baie_id_' . $baie_id .'"',
                 $video_background,
                 $parallax_image_background,
                 $inline_styles
             );
-            $baie_id++;
             return $output;
         }
         
@@ -483,6 +480,14 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             $images = array();
             $size_width = 376;
             $size_height = 220;
+            $i = 0; // 0 = Before Image, 1 = After Image
+            $imageClass = array(
+                'baie_before_image',
+                'baie_after_image'
+            );
+
+            // The attributes are part of a cooperation between plugin authors of LazyLoad solutions to standardize exclusions.
+            $lazy_load_attr = 'data-skip-lazy data-no-lazy';
 
             // Get selected image labels.
             $beforeLabel = ( isset( $attributes['label_before']) ) ? $attributes['label_before'] : '';
@@ -499,8 +504,21 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             // Use a placeholder image if the user did not select images. 
             if( $srcs[0] == null || $srcs[0] == '' ){
                 
+                $placeholder_string = '';
+                for( $n = 0; $n <= 1; $n++){
+                    $placeholder_string .= sprintf('<img src="%1$s" data-before-label="%2$s" data-after-label="%3$s" data-slider-offset="%4$s" %8$s alt="%5$s" title="%6$s" class="%7$s" />',
+                    esc_attr( $src_placeholder ),
+                    esc_attr( $beforeLabel ),
+                    esc_attr( $afterLabel ),
+                    esc_attr( $sliderOffset ),
+                    esc_attr( $alt ),
+                    esc_attr( $title_text ),
+                    esc_attr( $imageClass[ $n ] ),
+                    $lazy_load_attr,
+                );
+                }
                 array_push( $images, array(
-                    'output' => '<img src="'. esc_attr( $src_placeholder ) .'" data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" /><img src="'. esc_attr( $src_placeholder ) .'" data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" />',
+                    'output' => $placeholder_string,
                     'size_width' => $size_width,
                     'size_height' => $size_height,
                     'is_svg' => false
@@ -510,6 +528,9 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
 
                 // Extract properties from selected WordPress image objects.
                 foreach( $srcs as $src ){
+
+                    $imageClass = $imageClass[ $i ];
+                    $imageClass .= ' skip-lazy';
 
                     $src_id = attachment_url_to_postid( $src );
                     if( $src_id == ''){
@@ -558,13 +579,27 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     // Handle svg image behaviour
                     $is_src_svg = isset( $src_file_extension ) ? 'svg' === $src_file_extension : false;
                     
+                    $image_string = sprintf('<img src="%1$s" %2$s %3$s data-before-label="%4$s" data-after-label="%5$s" data-slider-offset="%6$s" %10$s alt="%7$s" title="%8$s" class="%9$s" />',
+                        esc_attr( $src_url ),
+                        $src_set_output,
+                        $src_sizes_output,
+                        esc_attr( $beforeLabel ),
+                        esc_attr( $afterLabel ),
+                        esc_attr( $sliderOffset ),
+                        esc_attr( $alt ),
+                        esc_attr( $title_text ),
+                        esc_attr( $imageClass ),
+                        $lazy_load_attr,
+                    );
+
                     array_push( $images, array(
-                        'output' => '<img src="'. esc_attr( $src_url ) .'" '. $src_set_output .' '. $src_sizes_output .' data-before-label="'. esc_attr( $beforeLabel ).'" data-after-label="'. esc_attr( $afterLabel ).'" data-slider-offset="'. esc_attr( $sliderOffset ).'" alt="'. esc_attr( $alt ) .'"'. ( '' !== $title_text ? sprintf( ' title="%1$s"', esc_attr( $title_text ) ) : '' ) .' class="" />',
+                        'output' => $image_string,
                         'size_width' => $size_width,
                         'size_height' => $size_height,
                         'is_svg' => $is_src_svg
                         )
                     );
+                    $i++;
                 } 
             }
             return $images;
