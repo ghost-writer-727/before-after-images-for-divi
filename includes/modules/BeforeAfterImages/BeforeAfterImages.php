@@ -485,7 +485,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
              * According to WP Rocket, these attributes are part of a cooperation between LazyLoad plugin authors
              * to standardize exclusions.
              * */ 
-            $lazy_load_attr = 'data-skip-lazy data-no-lazy';
+            $lazy_load_attr = 'data-skip-lazy="1" data-no-lazy="1"';
 
             // Get selected image labels.
             $beforeLabel = ( isset( $attributes['label_before']) ) ? $attributes['label_before'] : '';
