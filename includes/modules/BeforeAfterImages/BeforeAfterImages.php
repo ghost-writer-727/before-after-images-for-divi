@@ -504,16 +504,17 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 
                 $placeholder_string = '';
                 for( $n = 0; $n <= 1; $n++){
-                    $placeholder_string .= sprintf('<img src="%1$s" data-before-label="%2$s" data-after-label="%3$s" data-slider-offset="%4$s" %8$s alt="%5$s" title="%6$s" class="%7$s" />',
-                    esc_attr( $src_placeholder ),
-                    esc_attr( $beforeLabel ),
-                    esc_attr( $afterLabel ),
-                    esc_attr( $sliderOffset ),
-                    esc_attr( $alt ),
-                    esc_attr( $title_text ),
-                    esc_attr( $imageClass[ $n ] ),
-                    $lazy_load_attr,
-                );
+                    $placeholder_string .= sprintf(
+                        '<img src="%1$s" data-before-label="%2$s" data-after-label="%3$s" data-slider-offset="%4$s" %8$s alt="%5$s" title="%6$s" class="%7$s" />',
+                        esc_attr( $src_placeholder ),
+                        esc_attr( $beforeLabel ),
+                        esc_attr( $afterLabel ),
+                        esc_attr( $sliderOffset ),
+                        esc_attr( $alt ),
+                        esc_attr( $title_text ),
+                        esc_attr( $imageClass[ $n ] ),
+                        $lazy_load_attr
+                    );
                 }
                 array_push( $images, array(
                     'output' => $placeholder_string,
@@ -581,7 +582,8 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     $is_src_svg = isset( $src_file_extension ) ? 'svg' === $src_file_extension : false;
                     
                     // Construct HTML image elements.
-                    $image_string = sprintf('<img src="%1$s" %2$s %3$s data-before-label="%4$s" data-after-label="%5$s" data-slider-offset="%6$s" %10$s alt="%7$s" title="%8$s" class="%9$s" />',
+                    $image_string = sprintf(
+                        '<img src="%1$s" %2$s %3$s data-before-label="%4$s" data-after-label="%5$s" data-slider-offset="%6$s" %10$s alt="%7$s" title="%8$s" class="%9$s" />',
                         esc_attr( $src_url ),
                         $src_set_output,
                         $src_sizes_output,
@@ -591,7 +593,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                         esc_attr( $alt ),
                         esc_attr( $title_text ),
                         esc_attr( $imageClass[ $i ] . ' skip-lazy' ),
-                        $lazy_load_attr,
+                        $lazy_load_attr
                     );
                     
                     array_push( $images, array(
