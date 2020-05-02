@@ -9,15 +9,14 @@ Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create a composite Before/After image slider in the Divi Visual Builder.
+Create before-and-after image sliders in the Divi Visual Builder easily.
 
 == Description ==
 
-*Before + After Images for Divi* adds a new Divi Builder module that allows the user to create a Before/After image slider.
+Create Before/After image sliders in Divi easily with *Before + After Images for Divi*
 
 * Compatible with the Visual Builder.
-* Uses cropped image sizes within the Divi Builder module (image size selection).
-* Supports lazy loading.
+* Supports cropped image sizes (image size selection).
 * Mobile responsive.
 * Lightweight.
 
@@ -30,10 +29,9 @@ This plugin is designed to work with the Divi Builder plugin or a theme such as 
 * [Before + After Images for Divi](https://wordpress.org/plugins/before-after-images-for-divi/)
 * [Image Size Selection for Divi](https://wordpress.org/plugins/image-size-selection-for-divi/)
 
-
 = Supporting Before + After Images for Divi =
 
-If you found this plugin helpful, please support the developer with a small donation:
+If you found this free plugin helpful, tips are appreciated:
 
 * [Buy me a coffee](http://ko-fi.com/boltonstudios)
 
@@ -43,13 +41,13 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 
 == Installation ==
 
-1. Upload "before-after-images-for-divi" to the /wp-content/plugins/ directory.
-2. Activate the plugin through the "Plugins" menu in WordPress.
-3. Add a new "Before + After Image" module to any Page or Post that uses the Divi Builder.
-4. Add a *Before* image and an *After* image to the module.
-5. Select an image size in the module under the "Advanced" tab.
+1. Upload *before-after-images-for-divi* to the /wp-content/plugins/ directory.
+2. Activate the plugin through the **Plugins** menu in WordPress.
+3. Add a new **Before + After Images* module to any Page or Post that uses the Divi Builder.
+4. Add a **Before** image and an **After** image to the module.
+5. Select an image size in the module under the **Advanced** tab.
 6. Click the green check to save the module.
-7. Click the green "Save" button in the lower right-hand corner of the screen to Save changes.
+7. Click the green **Save** button in the lower right-hand corner of the screen to Save changes.
 
 == Screenshots ==
 
