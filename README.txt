@@ -13,7 +13,7 @@ Create before-and-after image sliders in the Divi Visual Builder easily.
 
 == Description ==
 
-Create Before/After image sliders in Divi easily with *Before + After Images for Divi*
+Create before-and-after image sliders in Divi easily with *Before + After Images for Divi*.
 
 * Compatible with the Visual Builder.
 * Supports cropped image sizes (image size selection).
@@ -31,13 +31,13 @@ This plugin is designed to work with the Divi Builder plugin or a theme such as 
 
 = Supporting Before + After Images for Divi =
 
-If you found this free plugin helpful, tips are appreciated:
+If you found this free plugin helpful, please support the developer with a small donation:
 
 * [Buy me a coffee](http://ko-fi.com/boltonstudios)
 
 = Credit =
 
-Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the power of [TwentyTwenty by Zurb](https://zurb.com/playground/twentytwenty) to your Divi Builder installation.
+Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the power of [TwentyTwenty by ZURB](https://zurb.com/playground/twentytwenty) to your Divi Builder installation.
 
 == Installation ==
 
