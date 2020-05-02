@@ -12,7 +12,9 @@ class BeforeAfterImages extends Component {
 
         super(props);
         
-        // Get user input: slider offset.
+        console.log(props);
+
+        // Get user input: slider offset. Store as a decimal (e.g. 0.5).
         var sliderOffset = parseInt(this.props.slider_offset)/100;
         
         // Create "callback refs"
@@ -39,6 +41,7 @@ class BeforeAfterImages extends Component {
         
         // Update Before & After image
         this.updateTwentyTwenty = () => {
+
             if( this.twentyTwentyElement ){
                 
                 // Reset width of wrapper
@@ -77,11 +80,11 @@ class BeforeAfterImages extends Component {
                 }
                 // If "before" image height is 0, set arbitrary default height.
                 if( twentyTwentyBeforeHeight === 0 ){
+
                     twentyTwentyHeight = '220px';
                 } else{
+
                     twentyTwentyHeight = 'auto';
-                    // Remove "select size" background if at least one image has been selected.
-                    this.twentyTwentyContainer.style.background = '';
                 }
                 
                 // Set wrapper and container styles.
@@ -170,14 +173,16 @@ class BeforeAfterImages extends Component {
             var beforeImageSourceParsed = document.createElement('a');
             beforeImageSourceParsed.href = beforeImageSource;
             var beforeImageSourcePathSplit = beforeImageSourceParsed.pathname.split(".");
+            beforeImageSourcePathSplit[0] = beforeImageSourcePathSplit[0].replace( "-scaled", "" )
             beforeImageSource = beforeImageSourceParsed.protocol + '//' + beforeImageSourceParsed.hostname + beforeImageSourcePathSplit[0] + '-' + sizeSelectedWidth + 'x' + sizeSelectedHeight + '.' + beforeImageSourcePathSplit[1];
             
             // After image.
             var afterImageSourceParsed = document.createElement('a');
             afterImageSourceParsed.href = afterImageSource;
             var afterImageSourcePathSplit = afterImageSourceParsed.pathname.split(".");
+            afterImageSourcePathSplit[0] = afterImageSourcePathSplit[0].replace( "-scaled", "" )
             afterImageSource = afterImageSourceParsed.protocol + '//' + afterImageSourceParsed.hostname + afterImageSourcePathSplit[0] + '-' + sizeSelectedWidth + 'x' + sizeSelectedHeight + '.' + afterImageSourcePathSplit[1];
-            
+
             // Check if images exist at size. If not, use original image source. Set size class appropriately.
             beforeImage.src = beforeImageSource;
             afterImage.src = afterImageSource;
@@ -213,6 +218,7 @@ class BeforeAfterImages extends Component {
         // Styles
         var twentyTwentyStyle = {
             width: '100%',
+            maxWidth: '100%',
             marginTop: 0,
             marginRight: 'auto',
             marginBottom: 0,
