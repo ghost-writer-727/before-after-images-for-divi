@@ -1,12 +1,11 @@
 {
-  "name": "before-after-image-extension",
+  "name": "before-after-images-for-divi",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "divi-scripts": "1.0.1",
-    "grunt-po2mo": "^0.1.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "scripts": {
     "start": "divi-scripts start",
@@ -28,7 +27,7 @@
     ]
   },
   "cde": {
-    "gettext": "baie-before-after-image-extension",
+    "gettext": "before-after-images-for-divi",
     "prefix": "baie"
   }
 }

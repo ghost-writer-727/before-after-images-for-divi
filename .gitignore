@@ -11,6 +11,7 @@
 /styles/bundle.min.css
 asset-manifest.json
 *.map
+before-after-images-for-divi.zip
 
 # misc
 .DS_Store
@@ -18,6 +19,7 @@ asset-manifest.json
 .env.development.local
 .env.test.local
 .env.production.local
+.vscode
 
 npm-debug.log*
 yarn-debug.log*

@@ -1,19 +1,19 @@
 === Before + After Images for Divi ===
 Contributors: boltonstudios
 Donate link: http://ko-fi.com/boltonstudios
-Tags: divi, divi builder, elegant themes, elegantthemes, before, after
+Tags: divi, before, after, slider, comparison
 Requires at least: 4.0.0
-Tested up to: 5.1
+Tested up to: 5.4.1
 Requires PHP: 7.1
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This extension adds a Divi module that allows the user to create a simple composite Before/After image from two images at a set size.
+Create a composite Before/After image slider in the Divi Visual Builder.
 
 == Description ==
 
-*Before + After Images for Divi* adds a new Divi Builder module that allows the user to create a simple composite Before/After image from two images at a set size.
+*Before + After Images for Divi* adds a new Divi Builder module that allows the user to create a Before/After image slider.
 
 * Compatible with the Visual Builder.
 * Uses cropped image sizes within the Divi Builder module (image size selection).
@@ -57,6 +57,12 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 2. Image size selection.
 
 == Changelog ==
+
+= 1.3.0 =
+* Update: Improved stability, readability and organization of codebase by rewriting many functions.
+* New Feature: Added attributes to images to support new lazy load exclusions.
+* New Feature: Replaced placeholder image with default Divi image SVG placeholder.
+* Tested for compatibility with latest versions of Divi and WordPress.
 
 = 1.2.3 =
 * Bug Fix: Fixed multiple errors shown when WP_DEBUG is set to 'true'.
