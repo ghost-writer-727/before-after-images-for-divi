@@ -25,28 +25,18 @@ class BeforeAfterImages extends Component {
         this.afterImage = React.createRef();
         this.sliderHandle = React.createRef();
     }
-    // Called after the first render only on the client side.
-    componentWillMount(){
-        console.log("COMPONENT WILL MOUNT");
-    }
-    // Called after the first render only on the client side.
-    componentDidMount(){
-        console.log("COMPONENT DID MOUNT");
-    }
-    // Called just after rendering.
-    componentDidUpdate(prevProps){
-        console.log("COMPONENT DID UPDATE")
-    }
-
     render() {
 
-        console.log("RENDER");
-
         // Create images objects from user input: image source.
-        this.beforeImage.src = this.props.src_before;
-        this.afterImage.src = this.props.src_after;
-        var beforeImage = this.beforeImage;
-        var afterImage = this.afterImage;
+        var beforeImage = new Image();
+        var afterImage = new Image();
+        beforeImage.src = this.props.src_before;
+        afterImage.src = this.props.src_after;
+
+        // Store the natural width and height.
+        // Used in logic where the user selected the "Full size" size option.
+        var fullSizeWidth = (beforeImage.naturalWidth <= afterImage.naturalWidth) ? beforeImage.naturalWidth : afterImage.naturalWidth;
+        var fullSizeHeight = (beforeImage.naturalHeight <= afterImage.naturalHeight) ? beforeImage.naturalHeight : afterImage.naturalHeight;
 
         // Get user input: slider offset.
         var sliderOffsetString = this.props.slider_offset;
@@ -68,11 +58,6 @@ class BeforeAfterImages extends Component {
         var didSelectFullSize = ( sizeSelected === 'full' || sizeSelected === 'fullsize.' ) ? true : false;
 
         // Initialize other variables.
-        var imageAttributes = {
-            beforeImage: new Object(),
-            afterImage: new Object(),
-            alignment: this.props.align
-        };
         var selectedSizeAttributes = {
             width: 0,
             height: 0,
@@ -81,7 +66,8 @@ class BeforeAfterImages extends Component {
         var selectedWidth = ''; 
         var selectedHeight = '';
         var sizeClass = '';
-
+        var alignment = this.props.align;
+        
         // Set some classes for the wrapper based on the image size.
         if( sizeSelected === 'undefined' || sizeSelected === 'selectasize.' ){
             sizeClass = 'sizeUndefined';
@@ -115,12 +101,6 @@ class BeforeAfterImages extends Component {
                 sizeClass += 'sizeFull sizeFallback ';
             }
 
-            // Update imageAttributes
-            imageAttributes.beforeImage.width = beforeImageAtSize.width;
-            imageAttributes.beforeImage.height = beforeImageAtSize.height;
-            imageAttributes.afterImage.width = beforeImageAtSize.width;
-            imageAttributes.afterImage.height = afterImageAtSize.height;
-
             // Update selectedSizeAttributes
             selectedSizeAttributes.width = selectedWidth;
             selectedSizeAttributes.height = selectedHeight;
@@ -132,27 +112,16 @@ class BeforeAfterImages extends Component {
             selectedWidth = 376;
             selectedHeight = 225;
 
-            // Update imageAttributes
-            imageAttributes.beforeImage.width = beforeImage.width;
-            imageAttributes.beforeImage.height = beforeImage.height;
-            imageAttributes.afterImage.width = afterImage.width;
-            imageAttributes.afterImage.height = afterImage.height;
-
             // Update selectedSizeAttributes
             selectedSizeAttributes.width = selectedWidth;
             selectedSizeAttributes.height = selectedHeight;
+
         } else{
             
             // Full size selected.
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
             selectedWidth = ( beforeImage.width > afterImage.width ) ? afterImage.width : beforeImage.width;
             selectedHeight = ( beforeImage.height > afterImage.height ) ? afterImage.width : beforeImage.width;
-
-            // Update imageAttributes
-            imageAttributes.beforeImage.width = beforeImage.width;
-            imageAttributes.beforeImage.height = beforeImage.height;
-            imageAttributes.afterImage.width = afterImage.width;
-            imageAttributes.afterImage.height = afterImage.height;
 
             // Update selectedSizeAttributes
             selectedSizeAttributes.width = selectedWidth;
@@ -165,11 +134,28 @@ class BeforeAfterImages extends Component {
         
         // Styles
         var styles = generateStyles(
-            imageAttributes,
+            alignment,
             selectedSizeAttributes,
             sliderOffset,
             sliderOffsetString
         );
+
+        // Adjust styles if the user selected "Full size".
+        if(this.container.current !== null && didSelectFullSize === true ){
+
+            // Get the container and image attributes.
+            var orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
+            var aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
+            var width = this.container.current.clientWidth;
+            var height = Math.trunc(this.container.current.clientWidth * aspectRatio);
+
+            // Apply changes to styles object.
+            styles.container.height = height;
+            styles.beforeImage.height = height;
+            styles.beforeImage.clip = 'rect(0px, ' + (width*sliderOffset) + 'px, ' + height + 'px, 0px)'
+            styles.afterImage.height = height;
+            styles.afterImage.clip = 'rect(0px, ' + width + 'px, ' + height + 'px, ' + (width*sliderOffset) + 'px)'
+        }
         return (
             <Fragment>
                 <div id="et-boc" ref={n => this.node = n}>

@@ -539,7 +539,8 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     $src_file_extension = $src_path_parts['extension'];
 
                     // Get selected size.
-                    $size = $attributes['size']; // Width: 376px. Height: 220px. (cropped).
+                    $size = 'Width: 376px. Height: 220px. (cropped).'; // default
+                    $size = isset( $attributes['size'] ) ? $attributes['size'] : $size; 
                     $size_explode = explode( '.', $size );
                     if( array_key_exists( 1, $size_explode ) ){
 

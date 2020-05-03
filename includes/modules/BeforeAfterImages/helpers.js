@@ -24,17 +24,11 @@ export function createImageSrcAtSize( image, size ){
     return imageObject;
 }
 // export function updateStyles( isSizeFull, width, height, imageAlignment, sliderOffset, sliderOffsetString ){
-export function generateStyles( imageAttributes, selectedSizeAttributes, sliderOffset, sliderOffsetString ){
+export function generateStyles( alignment, selectedSizeAttributes, sliderOffset, sliderOffsetString ){
 
     // Set the width and height to match the size selected by the user
     var width = selectedSizeAttributes.width;
     var height = selectedSizeAttributes.height;
-
-    // In case the user selected "full size", set the width and height to the image dimensions
-    if( selectedSizeAttributes.didSelectFullSize == true ){
-        width = (imageAttributes.beforeImage.width >= imageAttributes.afterImage.width) ? imageAttributes.beforeImage.width : imageAttributes.afterImage.width;
-        height = (imageAttributes.beforeImage.height >= imageAttributes.afterImage.height) ? imageAttributes.beforeImage.height : imageAttributes.afterImage.height;
-    }
 
     var wrapperStyles = {
         width: width + 'px',
@@ -44,7 +38,7 @@ export function generateStyles( imageAttributes, selectedSizeAttributes, sliderO
         marginBottom: 0,
         marginLeft: 'auto'
     }
-    switch( imageAttributes.alignment ){
+    switch( alignment ){
         case( "left" ):
             wrapperStyles.marginLeft = 0;
             break;
