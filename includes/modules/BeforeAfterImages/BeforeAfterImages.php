@@ -47,7 +47,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
         );
         
         /**
-         * 
+         * The list of available image sizes.
          * @since 1.3.0
          * 
          * @var array $image_size_list
@@ -766,10 +766,10 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
 
                 if( $size['width'] != 0 && $size['height'] != 0 && $cropped == '(cropped).' ){
 
-                    $image_dimensions += [ strtolower( preg_replace('/\s*/', '', $size_str) ) => $size_str ];
+                    $image_dimensions += [ strtolower( preg_replace('/\s*/', '', $size_str) ) => esc_html__( $size_str, 'before_after_images_for_divi') ];
                 }
             }
-            $image_dimensions += [ 'fullsize.' => 'Full size.' ];
+            $image_dimensions += [ 'fullsize.' => esc_html__( 'Full size.', 'before_after_images_for_divi') ];
             return $image_dimensions;
         }
     }

@@ -3,6 +3,9 @@ import React, { Component, Fragment } from 'react';
 
 // Internal Dependencies
 import './style.css';
+import {createImageSrcAtSize} from './helpers.js';
+import {generateStyles} from './helpers.js';
+import {getOrientationClasses} from './helpers.js';
 
 class BeforeAfterImages extends Component {
 
@@ -11,152 +14,75 @@ class BeforeAfterImages extends Component {
     constructor(props){
 
         super(props);
-        
-        console.log(props);
 
         // Get user input: slider offset. Store as a decimal (e.g. 0.5).
-        var sliderOffset = parseInt(this.props.slider_offset)/100;
-        
-        // Create "callback refs"
-        this.twentyTwentyElement = null;
-        this.twentyTwentyBefore = null;
-        this.twentyTwentyAfter = null;
-        this.twentyTwentyHandle = null;
-        
-        this.setTwentyTwentyElementRef = element => {
-            this.twentyTwentyElement = element;
-        }
-        this.setTwentyTwentyContainerRef = element => {
-            this.twentyTwentyContainer = element;
-        }
-        this.setTwentyTwentyBeforeRef = element => {
-            this.twentyTwentyBefore = element;
-        }
-        this.setTwentyTwentyAfterRef = element => {
-            this.twentyTwentyAfter = element;
-        }
-        this.setTwentyTwentyHandleRef = element => {
-            this.twentyTwentyHandle = element;
-        }
-        
-        // Update Before & After image
-        this.updateTwentyTwenty = () => {
+        this.sliderOffset = parseInt(this.props.slider_offset)/100;
 
-            if( this.twentyTwentyElement ){
-                
-                // Reset width of wrapper
-                this.twentyTwentyElement.style.width = '100%';
-                
-                // Set container background to display 'size not found' (visible if image is unavailable).
-                this.twentyTwentyContainer.style.background = 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA4MCIgaGVpZ2h0PSI1NDAiIHZpZXdCb3g9IjAgMCAxMDgwIDU0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0VCRUJFQiIgZD0iTTAgMGgxMDgwdjU0MEgweiIvPgogICAgICAgIDxwYXRoIGQ9Ik00NDUuNjQ5IDU0MGgtOTguOTk1TDE0NC42NDkgMzM3Ljk5NSAwIDQ4Mi42NDR2LTk4Ljk5NWwxMTYuMzY1LTExNi4zNjVjMTUuNjItMTUuNjIgNDAuOTQ3LTE1LjYyIDU2LjU2OCAwTDQ0NS42NSA1NDB6IiBmaWxsLW9wYWNpdHk9Ii4xIiBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz4KICAgICAgICA8Y2lyY2xlIGZpbGwtb3BhY2l0eT0iLjA1IiBmaWxsPSIjMDAwIiBjeD0iMzMxIiBjeT0iMTQ4IiByPSI3MCIvPgogICAgICAgIDxwYXRoIGQ9Ik0xMDgwIDM3OXYxMTMuMTM3TDcyOC4xNjIgMTQwLjMgMzI4LjQ2MiA1NDBIMjE1LjMyNEw2OTkuODc4IDU1LjQ0NmMxNS42Mi0xNS42MiA0MC45NDgtMTUuNjIgNTYuNTY4IDBMMTA4MCAzNzl6IiBmaWxsLW9wYWNpdHk9Ii4yIiBmaWxsPSIjMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz4KICAgIDwvZz4KPC9zdmc+Cg==) top left no-repeat';
-                this.twentyTwentyContainer.style.backgroundSize = 'cover';
-                
-                // Get wrapper width
-                var twentyTwentyWrapperWidth = this.twentyTwentyElement.offsetWidth;
-                
-                // Get width and height of images.
-                var twentyTwentyBeforeWidth = this.twentyTwentyBefore.naturalWidth;
-                var twentyTwentyBeforeHeight = this.twentyTwentyBefore.naturalHeight;
-                
-                // Create dynamic width and height references
-                var twentyTwentyWidth = twentyTwentyBeforeWidth;
-                var twentyTwentyHeight = twentyTwentyBeforeHeight;
-                
-                // The Before image will have had the same width and height attributes as the After image (see render() code).
-                var twentyTwentySizeSelectedWidth = this.twentyTwentyBefore.getAttribute( "width");
-                var twentyTwentySizeSelectedHeight = this.twentyTwentyBefore.getAttribute( "height");
-                
-                // If "before" image width is 0, set arbitrary default width.
-                if( twentyTwentyBeforeWidth === 0 ){
-                    twentyTwentyWidth = '375';
-                } 
-                // If the "before" image width exceeds the wrapper width, set width reference to the wrapper width.
-                if( twentyTwentyBeforeWidth > twentyTwentyWrapperWidth ){
-                    twentyTwentyWidth = twentyTwentyWrapperWidth;
-                }
-                // If the current width reference (and thus both the "before" image width and the wrapper width) are greater than the selected size width, set width reference to the selected size width.
-                if( ( twentyTwentyWidth > twentyTwentySizeSelectedWidth ) ){
-                    twentyTwentyWidth = twentyTwentySizeSelectedWidth;
-                }
-                // If "before" image height is 0, set arbitrary default height.
-                if( twentyTwentyBeforeHeight === 0 ){
-
-                    twentyTwentyHeight = '220px';
-                } else{
-
-                    twentyTwentyHeight = 'auto';
-                }
-                
-                // Set wrapper and container styles.
-                this.twentyTwentyElement.style.width = twentyTwentyWidth + 'px';
-                this.twentyTwentyContainer.style.width = twentyTwentyWidth + 'px';
-                this.twentyTwentyContainer.style.height = twentyTwentyHeight;
-                if(twentyTwentySizeSelectedHeight < twentyTwentyBeforeHeight ){
-                    this.twentyTwentyContainer.style.paddingBottom = (twentyTwentySizeSelectedHeight/twentyTwentySizeSelectedWidth) * 100 + '%';
-                } else{
-                    this.twentyTwentyContainer.style.paddingBottom = (this.twentyTwentyBefore.naturalHeight/this.twentyTwentyBefore.naturalWidth) * 100 + '%';
-                }
-                
-                // Set "before" image styles.
-                this.twentyTwentyBefore.style.clip = 'rect(0px, ' + (twentyTwentyWidth*sliderOffset) + 'px, ' + this.twentyTwentyContainer.offsetHeight + 'px, 0px)';
-                this.twentyTwentyBefore.style.height = twentyTwentyHeight;
-                
-                // Set "after" image styles.
-                this.twentyTwentyAfter.style.clip = 'rect(0px, ' + twentyTwentyWidth + 'px, ' + this.twentyTwentyContainer.offsetHeight + 'px, ' + (twentyTwentyWidth*sliderOffset) + 'px)';
-                this.twentyTwentyAfter.style.height = twentyTwentyHeight;
-                
-                // Set handle styles.
-                sliderOffset = this.twentyTwentyHandle.getAttribute('data-slider-offset');
-                this.twentyTwentyHandle.style.left = twentyTwentyWidth*sliderOffset + 'px';
-            }
-        }
+        // Create callback refs
+        this.wrapper = React.createRef();
+        this.container = React.createRef();
+        this.beforeImage = React.createRef();
+        this.afterImage = React.createRef();
+        this.sliderHandle = React.createRef();
     }
-
+    // Called after the first render only on the client side.
+    componentWillMount(){
+        console.log("COMPONENT WILL MOUNT");
+    }
+    // Called after the first render only on the client side.
     componentDidMount(){
-        this.updateTwentyTwenty();
+        console.log("COMPONENT DID MOUNT");
     }
-
-    componentDidUpdate(){
-        this.updateTwentyTwenty();
+    // Called just after rendering.
+    componentDidUpdate(prevProps){
+        console.log("COMPONENT DID UPDATE")
     }
 
     render() {
-        
-        // Get user input: image source.
-        var beforeImageSource = this.props.src_before;
-        var afterImageSource = this.props.src_after;
-        
-        // Get user input: image labels.
-        var beforeImageLabel = this.props.label_before;
-        var afterImageLabel = this.props.label_after;
-        
+
+        console.log("RENDER");
+
+        // Create images objects from user input: image source.
+        this.beforeImage.src = this.props.src_before;
+        this.afterImage.src = this.props.src_after;
+        var beforeImage = this.beforeImage;
+        var afterImage = this.afterImage;
+
         // Get user input: slider offset.
         var sliderOffsetString = this.props.slider_offset;
         var sliderOffset = parseInt(sliderOffsetString)/100;
-        
-        // Get user input: image alignment.
-        var imageAlignment = this.props.align;
-        
-        // Add default image labels is user input is blank.
-        beforeImageLabel = (beforeImageLabel === undefined || beforeImageLabel === 'undefined' || beforeImageLabel === '') ? "Before" : beforeImageLabel;
-        afterImageLabel = (afterImageLabel === undefined || afterImageLabel === 'undefined' || afterImageLabel === '') ? "After" : afterImageLabel;
-        
-        // Create images objects from input.
-        var beforeImage = new Image();
-        var afterImage = new Image();
-        beforeImage.src = beforeImageSource;
-        afterImage.src = afterImageSource;
+
+        // Get user input: image labels, and set defaults.
+        var beforeImageLabel = this.props.label_before;
+        var afterImageLabel = this.props.label_after;
+        beforeImageLabel = (beforeImageLabel === undefined || beforeImageLabel === 'undefined' || beforeImageLabel === '') ? "Before" : this.props.label_before;
+        afterImageLabel = (afterImageLabel === undefined || afterImageLabel === 'undefined' || afterImageLabel === '') ? "After" : this.props.label_after;
         
         // Get user input: size.
         var sizeSelected = this.props.size;
-        sizeSelected = (sizeSelected === undefined || sizeSelected === 'undefined' || sizeSelected === 'full' || sizeSelected === 'selectasize.') ? "Width: 376px. Height: 220px." : sizeSelected;
-        var sizeSelectedWidth = ''; // initialize variables
-        var sizeSelectedHeight = '';
-        var beforeImageOrientation = '';
-        var afterImageOrientation = '';
+
+        // Check if the user declined to select a size.
+        var didSelectSize = (sizeSelected === undefined || sizeSelected === 'undefined' || sizeSelected === 'selectasize.') ? false : true;
         
-        // Set some classes for the wrapper based on image size.
+        // Check if the user selected "Full Size."
+        var didSelectFullSize = ( sizeSelected === 'full' || sizeSelected === 'fullsize.' ) ? true : false;
+
+        // Initialize other variables.
+        var imageAttributes = {
+            beforeImage: new Object(),
+            afterImage: new Object(),
+            alignment: this.props.align
+        };
+        var selectedSizeAttributes = {
+            width: 0,
+            height: 0,
+            didSelectFullSize: didSelectFullSize
+        };
+        var selectedWidth = ''; 
+        var selectedHeight = '';
         var sizeClass = '';
+
+        // Set some classes for the wrapper based on the image size.
         if( sizeSelected === 'undefined' || sizeSelected === 'selectasize.' ){
             sizeClass = 'sizeUndefined';
         } else if( sizeSelected === 'full' || sizeSelected === 'fullsize.' ){
@@ -164,124 +90,115 @@ class BeforeAfterImages extends Component {
         }
         
         // Reconstruct image URL to retrieve image at selected size.
-        if (sizeSelected !== 'fullsize.'){
-            var sizeSelectedSplit = sizeSelected.split(".");
-            sizeSelectedWidth = parseInt(sizeSelectedSplit[0].match(/\d+/)[0]);
-            sizeSelectedHeight = parseInt(sizeSelectedSplit[1].match(/\d+/)[0]);
+        if ( didSelectSize === true && didSelectFullSize === false ){
             
-            // Before image.
-            var beforeImageSourceParsed = document.createElement('a');
-            beforeImageSourceParsed.href = beforeImageSource;
-            var beforeImageSourcePathSplit = beforeImageSourceParsed.pathname.split(".");
-            beforeImageSourcePathSplit[0] = beforeImageSourcePathSplit[0].replace( "-scaled", "" )
-            beforeImageSource = beforeImageSourceParsed.protocol + '//' + beforeImageSourceParsed.hostname + beforeImageSourcePathSplit[0] + '-' + sizeSelectedWidth + 'x' + sizeSelectedHeight + '.' + beforeImageSourcePathSplit[1];
-            
-            // After image.
-            var afterImageSourceParsed = document.createElement('a');
-            afterImageSourceParsed.href = afterImageSource;
-            var afterImageSourcePathSplit = afterImageSourceParsed.pathname.split(".");
-            afterImageSourcePathSplit[0] = afterImageSourcePathSplit[0].replace( "-scaled", "" )
-            afterImageSource = afterImageSourceParsed.protocol + '//' + afterImageSourceParsed.hostname + afterImageSourcePathSplit[0] + '-' + sizeSelectedWidth + 'x' + sizeSelectedHeight + '.' + afterImageSourcePathSplit[1];
+            // Construct image source URL's at selected size.
+            // Also get the selected image size for the module.
+            var beforeImageAtSize = createImageSrcAtSize( beforeImage.src, sizeSelected );
+            var afterImageAtSize = createImageSrcAtSize( afterImage.src, sizeSelected )
 
-            // Check if images exist at size. If not, use original image source. Set size class appropriately.
-            beforeImage.src = beforeImageSource;
-            afterImage.src = afterImageSource;
-            
-            beforeImageOrientation = (beforeImage.height > beforeImage.width) ? "before-portrait" : "before-landscape";
-            afterImageOrientation = (afterImage.height > afterImage.width) ? "after-portrait" : "after-landscape";
-            
-            if( beforeImage.naturalWidth === 0 ){
-                beforeImageSource = this.props.src_before;
-                sizeClass = 'sizeFull sizeFallback ' + beforeImageOrientation;
+            // Update vars with size values.
+            selectedWidth = beforeImageAtSize.width;
+            selectedHeight = beforeImageAtSize.height;
+            sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
+
+            // Check if image sources exists at the selected size. If so, update the source URL of the image obect.
+            // If the URL points to a real image, the natural width will not be 0.
+            if( beforeImage.naturalWidth !== 0 ){
+                beforeImage.src = beforeImageAtSize.url;
+            } else{
+                sizeClass += 'sizeFull sizeFallback ';
             }
-            if( afterImage.naturalWidth === 0 ){
-                afterImageSource = this.props.src_after;
-                sizeClass = 'sizeFull sizeFallback ' + afterImageOrientation;
+            if( afterImage.naturalWidth !== 0 ){
+                afterImage.src = afterImageAtSize.url;
+            } else{
+                sizeClass += 'sizeFull sizeFallback ';
             }
+
+            // Update imageAttributes
+            imageAttributes.beforeImage.width = beforeImageAtSize.width;
+            imageAttributes.beforeImage.height = beforeImageAtSize.height;
+            imageAttributes.afterImage.width = beforeImageAtSize.width;
+            imageAttributes.afterImage.height = afterImageAtSize.height;
+
+            // Update selectedSizeAttributes
+            selectedSizeAttributes.width = selectedWidth;
+            selectedSizeAttributes.height = selectedHeight;
+
+        } else if( didSelectSize === false && didSelectFullSize === false  ) {
+
+            // No size selected
+            sizeClass = getOrientationClasses( beforeImage, afterImage );
+            selectedWidth = 376;
+            selectedHeight = 225;
+
+            // Update imageAttributes
+            imageAttributes.beforeImage.width = beforeImage.width;
+            imageAttributes.beforeImage.height = beforeImage.height;
+            imageAttributes.afterImage.width = afterImage.width;
+            imageAttributes.afterImage.height = afterImage.height;
+
+            // Update selectedSizeAttributes
+            selectedSizeAttributes.width = selectedWidth;
+            selectedSizeAttributes.height = selectedHeight;
         } else{
             
-            beforeImage.src = beforeImageSource;
-            afterImage.src = afterImageSource;
-            
-            beforeImageOrientation = (beforeImage.height > beforeImage.width) ? "before-portrait" : "before-landscape";
-            afterImageOrientation = (afterImage.height > afterImage.width) ? "after-portrait" : "after-landscape";
-            sizeClass = 'sizeFull ' + beforeImageOrientation + ' ' + afterImageOrientation;
-            
-            sizeSelectedWidth = ( beforeImage.width > afterImage.width ) ? afterImage.width : beforeImage.width;
-            sizeSelectedHeight = ( beforeImage.height > afterImage.height ) ? afterImage.width : beforeImage.width;
+            // Full size selected.
+            sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
+            selectedWidth = ( beforeImage.width > afterImage.width ) ? afterImage.width : beforeImage.width;
+            selectedHeight = ( beforeImage.height > afterImage.height ) ? afterImage.width : beforeImage.width;
+
+            // Update imageAttributes
+            imageAttributes.beforeImage.width = beforeImage.width;
+            imageAttributes.beforeImage.height = beforeImage.height;
+            imageAttributes.afterImage.width = afterImage.width;
+            imageAttributes.afterImage.height = afterImage.height;
+
+            // Update selectedSizeAttributes
+            selectedSizeAttributes.width = selectedWidth;
+            selectedSizeAttributes.height = selectedHeight;
         }
         
         // Classes
-        var twentyTwentyWrapperClasses = "twentytwenty-wrapper twentytwenty-horizontal et_pb_image_wrap " + sizeClass;
-        var twentyTwentyContainerClasses = "twentytwenty-container";
+        var wrapperClasses = "twentytwenty-wrapper twentytwenty-horizontal et_pb_image_wrap " + sizeClass;
+        var containerClasses = "twentytwenty-container";
         
         // Styles
-        var twentyTwentyStyle = {
-            width: '100%',
-            maxWidth: '100%',
-            marginTop: 0,
-            marginRight: 'auto',
-            marginBottom: 0,
-            marginLeft: 'auto'
-        }
-        switch(imageAlignment){
-            case("left"):
-                twentyTwentyStyle.marginLeft = 0;
-                break;
-            case("right"):
-                twentyTwentyStyle.marginRight = 0;
-                break;
-            default:
-                break;
-        }
-        var containerStyle = {
-            maxWidth: '100%',
-            height: sizeSelectedHeight + 'px'
-        }
-        var beforeImageStyle = {
-            height: sizeSelectedHeight + 'px',
-            clip: 'rect(0px, ' + (sizeSelectedWidth*sliderOffset) + 'px, ' + sizeSelectedHeight + 'px, 0px)'
-        }
-        var afterImageStyle = {
-            height: sizeSelectedHeight + 'px',
-            clip: 'rect(0px, ' + sizeSelectedWidth + 'px, ' + sizeSelectedHeight + 'px, ' + (sizeSelectedWidth*sliderOffset) + 'px)'
-        }
-        var overlayStyle = {
-            width: sizeSelectedWidth + 'px',
-            maxWidth: '100%'
-        }
-        var handleStyle = {
-            left: sliderOffsetString
-        }
+        var styles = generateStyles(
+            imageAttributes,
+            selectedSizeAttributes,
+            sliderOffset,
+            sliderOffsetString
+        );
         return (
             <Fragment>
-                <div id="et-boc">
+                <div id="et-boc" ref={n => this.node = n}>
                     <div class="et-l">
-                        <div class={twentyTwentyWrapperClasses} style={twentyTwentyStyle} ref={this.setTwentyTwentyElementRef}>
-                            <div class={twentyTwentyContainerClasses} style={containerStyle} ref={this.setTwentyTwentyContainerRef}>
+                        <div class={wrapperClasses} style={styles.wrapper} ref={this.wrapper}>
+                            <div class={containerClasses} style={styles.container} ref={this.container}>
                                 <img
-                                    src={beforeImageSource}
+                                    src={beforeImage.src}
                                     alt=""
                                     class="twentytwenty-before"
-                                    style={beforeImageStyle}
-                                    width={sizeSelectedWidth}
-                                    height={sizeSelectedHeight}
-                                    ref={this.setTwentyTwentyBeforeRef} 
+                                    style={styles.beforeImage}
+                                    width={selectedWidth}
+                                    height={selectedHeight}
+                                    ref={this.beforeImage}
                                 />
                                 <img
-                                    src={afterImageSource}
+                                    src={afterImage.src}
                                     alt=""
                                     class="twentytwenty-after"
-                                    style={afterImageStyle}
-                                    width={sizeSelectedWidth}
-                                    height={sizeSelectedHeight}
-                                    ref={this.setTwentyTwentyAfterRef}
+                                    style={styles.afterImage}
+                                    width={selectedWidth}
+                                    height={selectedHeight}
+                                    ref={this.afterImage}
                                 />
-                                <div class="twentytwenty-overlay" style={overlayStyle}>
+                                <div class="twentytwenty-overlay" style={styles.overlay}>
                                     <div class="twentytwenty-before-label" data-content={beforeImageLabel}></div>
                                     <div class="twentytwenty-after-label" data-content={afterImageLabel}></div>
                                 </div>
-                                <div class="twentytwenty-handle" style={handleStyle} data-slider-offset={sliderOffset} ref={this.setTwentyTwentyHandleRef}>
+                                <div class="twentytwenty-handle" style={styles.handle} data-slider-offset={sliderOffset} ref={this.sliderHandle}>
                                     <span class="twentytwenty-left-arrow"></span>
                                     <span class="twentytwenty-right-arrow"></span>
                                 </div>
