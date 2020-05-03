@@ -56,6 +56,11 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 
 == Changelog ==
 
+= 1.3.1 =
+* Bug Fix: Fixed errors with extra large images in Visual Builder.
+* Bug Fix: Changed many React functions to improve performance of Visual Builder module generally.
+* New Feature: Added internationalization for some Visual Builder options.
+
 = 1.3.0 =
 * Update: Improved stability, readability and organization of codebase by rewriting many functions.
 * New Feature: Added attributes to images to support new lazy load exclusions.
