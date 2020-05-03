@@ -2,7 +2,7 @@
 /*
 Plugin Name: Before + After Images for Divi
 Description: This extension adds a Divi module that allows the user to create a simple composite Before/After image from two unique images at a set size.
-Version:     1.3.0
+Version:     1.3.1
 Author:      Aaron Bolton
 Author URI:  https://www.boltonstudios.com
 License:     GPL2
