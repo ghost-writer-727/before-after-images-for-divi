@@ -224,46 +224,46 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     'type' => 'range',
                     'option_category' => 'basic_option',
                     'options'           => array(
-                        'min'      => esc_html__( '0%', 'et_builder' ),
-                        'max'     => esc_html__( '100%', 'et_builder' ),
-                        'step'     => esc_html__( '10%', 'et_builder' ),
+                        'min'      => esc_html__( '0%', 'before-after-images-for-divi' ),
+                        'max'     => esc_html__( '100%', 'before-after-images-for-divi' ),
+                        'step'     => esc_html__( '10%', 'before-after-images-for-divi' ),
                     ),
                     'default_on_front' => '50%',
-                    'description' => esc_html__( 'This defines how much of the before image is visible when the page loads.' ),
+                    'description' => esc_html__( 'This defines how much of the before image is visible when the page loads.', 'before-after-images-for-divi' ),
                     'tab_slug' => 'custom_css',
                     'toggle_slug' => 'attributes'
                 ),
                 'show_bottom_space' => array(
-                    'label'             => esc_html__( 'Show Space Below The Image', 'et_builder' ),
+                    'label'             => esc_html__( 'Show Space Below The Image', 'before-after-images-for-divi' ),
                     'type'              => 'yes_no_button',
                     'option_category'   => 'layout',
                     'options'           => array(
-                        'on'      => esc_html__( 'Yes', 'et_builder' ),
-                        'off'     => esc_html__( 'No', 'et_builder' ),
+                        'on'      => esc_html__( 'Yes', 'before-after-images-for-divi' ),
+                        'off'     => esc_html__( 'No', 'before-after-images-for-divi' ),
                     ),
                     'default_on_front' => 'on',
                     'tab_slug'          => 'advanced',
                     'toggle_slug'       => 'margin_padding',
-                    'description'       => esc_html__( 'Here you can choose whether or not the image should have a space below it.', 'et_builder' ),
+                    'description'       => esc_html__( 'Here you can choose whether or not the image should have a space below it.', 'before-after-images-for-divi' ),
                 ),
                 'align' => array(
-                    'label'           => esc_html__( 'Image Alignment', 'et_builder' ),
+                    'label'           => esc_html__( 'Image Alignment', 'before-after-images-for-divi' ),
                     'type'            => 'text_align',
                     'option_category' => 'layout',
                     'options'         => et_builder_get_text_orientation_options( array( 'justified' ) ),
                     'default_on_front' => 'left',
                     'tab_slug'        => 'advanced',
                     'toggle_slug'     => 'alignment',
-                    'description'     => esc_html__( 'Here you can choose the image alignment.', 'et_builder' ),
+                    'description'     => esc_html__( 'Here you can choose the image alignment.', 'before-after-images-for-divi' ),
                     'options_icon'    => 'module_align',
                 ),
                 'force_fullwidth' => array(
-                    'label'             => esc_html__( 'Force Fullwidth', 'et_builder' ),
+                    'label'             => esc_html__( 'Force Fullwidth', 'before-after-images-for-divi' ),
                     'type'              => 'yes_no_button',
                     'option_category'   => 'layout',
                     'options'           => array(
-                        'off' => esc_html__( 'No', 'et_builder' ),
-                        'on'  => esc_html__( 'Yes', 'et_builder' ),
+                        'off' => esc_html__( 'No', 'before-after-images-for-divi' ),
+                        'on'  => esc_html__( 'Yes', 'before-after-images-for-divi' ),
                     ),
                     'default_on_front' => 'off',
                     'tab_slug'    => 'advanced',
@@ -273,12 +273,12 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     ),
                 ),
                 'always_center_on_mobile' => array(
-                    'label'             => esc_html__( 'Always Center Image On Mobile', 'et_builder' ),
+                    'label'             => esc_html__( 'Always Center Image On Mobile', 'before-after-images-for-divi' ),
                     'type'              => 'yes_no_button',
                     'option_category'   => 'layout',
                     'options'           => array(
-                        'on'  => esc_html__( 'Yes', 'et_builder' ),
-                        'off' => esc_html__( 'No', 'et_builder' ),
+                        'on'  => esc_html__( 'Yes', 'before-after-images-for-divi' ),
+                        'off' => esc_html__( 'No', 'before-after-images-for-divi' ),
                     ),
                     'default_on_front' => 'on',
                     'tab_slug'          => 'advanced',
@@ -308,8 +308,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
          * @param   string  $render_slug
          * */ 
         public function render( $attributes, $content = null, $render_slug ) {
-
-            //var_dump($this->props);
+            
             // Set defalt values.
             $is_src_svg = false;
             $max_width = 0;
