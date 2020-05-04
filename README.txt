@@ -57,9 +57,9 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 == Changelog ==
 
 = 1.3.1 =
-* Bug Fix: Fix error that caused overlay to extend beyond images on the front-end.
-* Bug Fix: Fixed error with extra large (scaled) images in the Visual Builder.
-* Bug Fix: Changed miscellaneous React functions to improve performance of the Visual Builder module generally.
+* Bug Fix: Fixed error that caused overlay to extend beyond images on the front-end.
+* Bug Fix: Fixed error affecting extra large (scaled) images in the Visual Builder.
+* Bug Fix: Edit miscellaneous functions in BeforeAfterIMages.jsx to improve the plugin's Visual Builder module.
 * Bug Fix: Fixed '$size missing index' error that could appear when WP_DEBUG is true.
 * New Feature: Added internationalization for more Visual Builder options.
 
