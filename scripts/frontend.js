@@ -47,6 +47,7 @@ jQuery(function($) {
             if( sliderOfferString != '' ){
                 baie_offset_pct = sliderOffset;
             }
+
             $( this ).twentytwenty({
                 default_offset_pct: baie_offset_pct, 
                 orientation: baie_orientation,
@@ -57,6 +58,14 @@ jQuery(function($) {
                 move_with_handle_only: baie_move_with_handle_only,
                 click_to_move: baie_click_to_move
             });
+
+            // Modify the TwentyTwenty output
+            /**
+             * Max-Width
+             * This value should be the width of the thinnest/shorest image.
+             */
+            var maxWidth = (beforeImage[0].offsetWidth <= afterImage[0].offsetWidth) ? beforeImage[0].offsetWidth : afterImage[0].offsetWidth;
+            $( this ).find( '.twentytwenty-overlay' ).css( 'max-width', maxWidth  );
         });
     }
     $(window).on( 'load', function(){
