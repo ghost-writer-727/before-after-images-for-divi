@@ -35,7 +35,7 @@ class Overlay extends Component{
 class Handle extends Component{
     render(){
         return(
-            <div class="twentytwenty-handle" style={this.props.styles.handle} data-slider-offset={this.props.offset} ref={this.props.ref}>
+            <div class="twentytwenty-handle" style={this.props.styles.handle} data-slider-offset={this.props.offset}>
                 <span class="twentytwenty-left-arrow"></span>
                 <span class="twentytwenty-right-arrow"></span>
             </div>
@@ -52,15 +52,8 @@ class BeforeAfterImages extends Component {
         this.state = { dimensions: {} };
         this.onImgLoad = this.onImgLoad.bind(this);
 
-        // Get user input: slider offset. Store as a decimal (e.g. 0.5).
-        this.sliderOffset = parseInt(this.props.slider_offset)/100;
-
         // Create callback refs
-        this.wrapper = React.createRef();
         this.container = React.createRef();
-        this.beforeImage = React.createRef();
-        this.afterImage = React.createRef();
-        this.sliderHandle = React.createRef();
     }
     onImgLoad({ target: img }) {
         this.setState({
@@ -89,14 +82,16 @@ class BeforeAfterImages extends Component {
         const fullSizeWidth = imgNaturalWidth;
         const fullSizeHeight = imgNaturalHeight;
         
-        // Get user input: slider offset.
-        var sliderOffsetString = this.props.slider_offset;
-        var sliderOffset = parseInt(sliderOffsetString)/100;
-        
         // Get labels from props.
         const labels = {
             before: this.props.label_before,
             after: this.props.label_after
+        }
+
+        // Get slider offset from props.
+        const sliderOffset = {
+            string: this.props.slider_offset,
+            int:  parseInt(this.props.slider_offset)/100
         }
 
         // Get user input: size.
@@ -187,8 +182,8 @@ class BeforeAfterImages extends Component {
         var styles = generateStyles(
             alignment,
             selectedSizeAttributes,
-            sliderOffset,
-            sliderOffsetString
+            sliderOffset.int,
+            sliderOffset.string
         );
 
         // Adjust styles if the user selected "Full size".
@@ -203,9 +198,9 @@ class BeforeAfterImages extends Component {
             // Apply changes to styles object.
             styles.container.height = height;
             styles.beforeImage.height = height;
-            styles.beforeImage.clip = 'rect(0px, ' + (width*sliderOffset) + 'px, ' + height + 'px, 0px)'
+            styles.beforeImage.clip = 'rect(0px, ' + (width*sliderOffset.int) + 'px, ' + height + 'px, 0px)'
             styles.afterImage.height = height;
-            styles.afterImage.clip = 'rect(0px, ' + width + 'px, ' + height + 'px, ' + (width*sliderOffset) + 'px)'
+            styles.afterImage.clip = 'rect(0px, ' + width + 'px, ' + height + 'px, ' + (width*sliderOffset.int) + 'px)'
         }
         return (
             <Fragment>

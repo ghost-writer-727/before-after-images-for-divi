@@ -71,7 +71,7 @@ export function generateStyles( alignment, selectedSizeAttributes, sliderOffset,
         maxWidth: '100%'
     }
     var handleStyles = {
-        left: sliderOffsetString
+        left: (width*sliderOffset) + 'px',
     }
     var styles = {
         wrapper: wrapperStyles,
