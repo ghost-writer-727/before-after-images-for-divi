@@ -7,6 +7,41 @@ import {createImageSrcAtSize} from './helpers.js';
 import {generateStyles} from './helpers.js';
 import {getOrientationClasses} from './helpers.js';
 
+class Image extends Component{
+    render(){
+        return(
+            <img
+                onLoad={this.props.onLoad}
+                src={this.props.src}
+                alt={this.props.alt}
+                className={this.props.className}
+                style={this.props.style}
+                width={this.props.width}
+                height={this.props.height}
+            />
+        );
+    }
+}
+class Overlay extends Component{
+    render(){
+        return(
+            <div class="twentytwenty-overlay" style={this.props.styles.overlay}>
+                <div class="twentytwenty-before-label" data-content={this.props.labels.before}></div>
+                <div class="twentytwenty-after-label" data-content={this.props.labels.after}></div>
+            </div>
+        );
+    }
+}
+class Handle extends Component{
+    render(){
+        return(
+            <div class="twentytwenty-handle" style={this.props.styles.handle} data-slider-offset={this.props.offset} ref={this.props.ref}>
+                <span class="twentytwenty-left-arrow"></span>
+                <span class="twentytwenty-right-arrow"></span>
+            </div>
+        );
+    }
+}
 class BeforeAfterImages extends Component {
 
     static slug = 'baie_before_after_image';
@@ -14,6 +49,8 @@ class BeforeAfterImages extends Component {
     constructor(props){
 
         super(props);
+        this.state = { dimensions: {} };
+        this.onImgLoad = this.onImgLoad.bind(this);
 
         // Get user input: slider offset. Store as a decimal (e.g. 0.5).
         this.sliderOffset = parseInt(this.props.slider_offset)/100;
@@ -25,6 +62,16 @@ class BeforeAfterImages extends Component {
         this.afterImage = React.createRef();
         this.sliderHandle = React.createRef();
     }
+    onImgLoad({ target: img }) {
+        this.setState({
+            dimensions: {
+                imgOffsetHeight: img.offsetHeight,
+                imgOffsetWidth: img.offsetWidth,
+                imgNaturalHeight: img.offsetHeight,
+                imgNaturalWidth: img.offsetWidth,
+            }
+        });
+    }
     render() {
 
         // Create images objects from user input: image source.
@@ -32,22 +79,26 @@ class BeforeAfterImages extends Component {
         var afterImage = new Image();
         beforeImage.src = this.props.src_before;
         afterImage.src = this.props.src_after;
+        
+        // Store the natural image dimensions.
+        const { imgOffsetWidth, imgOffsetHeight, imgNaturalWidth, imgNaturalHeight  } = this.state.dimensions;
 
-        // Store the natural width and height.
         // Used in logic where the user selected the "Full size" size option.
-        var fullSizeWidth = (beforeImage.naturalWidth <= afterImage.naturalWidth) ? beforeImage.naturalWidth : afterImage.naturalWidth;
-        var fullSizeHeight = (beforeImage.naturalHeight <= afterImage.naturalHeight) ? beforeImage.naturalHeight : afterImage.naturalHeight;
-
+        //const fullSizeWidth = (bImage.naturalWidth <= aImage.naturalWidth) ? bImage.naturalWidth : aImage.naturalWidth;
+        //const fullSizeHeight = (bImage.naturalHeight <= aImage.naturalHeight) ? bImage.naturalHeight : aImage.naturalHeight;
+        const fullSizeWidth = imgNaturalWidth;
+        const fullSizeHeight = imgNaturalHeight;
+        
         // Get user input: slider offset.
         var sliderOffsetString = this.props.slider_offset;
         var sliderOffset = parseInt(sliderOffsetString)/100;
-
-        // Get user input: image labels, and set defaults.
-        var beforeImageLabel = this.props.label_before;
-        var afterImageLabel = this.props.label_after;
-        beforeImageLabel = (beforeImageLabel === undefined || beforeImageLabel === 'undefined' || beforeImageLabel === '') ? "Before" : this.props.label_before;
-        afterImageLabel = (afterImageLabel === undefined || afterImageLabel === 'undefined' || afterImageLabel === '') ? "After" : this.props.label_after;
         
+        // Get labels from props.
+        const labels = {
+            before: this.props.label_before,
+            after: this.props.label_after
+        }
+
         // Get user input: size.
         var sizeSelected = this.props.size;
 
@@ -162,32 +213,26 @@ class BeforeAfterImages extends Component {
                     <div class="et-l">
                         <div class={wrapperClasses} style={styles.wrapper} ref={this.wrapper}>
                             <div class={containerClasses} style={styles.container} ref={this.container}>
-                                <img
+                                <Image
+                                    onLoad = {this.onImgLoad}
                                     src={beforeImage.src}
                                     alt=""
-                                    class="twentytwenty-before"
+                                    className="twentytwenty-before"
                                     style={styles.beforeImage}
                                     width={selectedWidth}
                                     height={selectedHeight}
-                                    ref={this.beforeImage}
                                 />
-                                <img
+                                <Image
+                                    onLoad = {this.onImgLoad}
                                     src={afterImage.src}
                                     alt=""
-                                    class="twentytwenty-after"
+                                    className="twentytwenty-after"
                                     style={styles.afterImage}
                                     width={selectedWidth}
                                     height={selectedHeight}
-                                    ref={this.afterImage}
                                 />
-                                <div class="twentytwenty-overlay" style={styles.overlay}>
-                                    <div class="twentytwenty-before-label" data-content={beforeImageLabel}></div>
-                                    <div class="twentytwenty-after-label" data-content={afterImageLabel}></div>
-                                </div>
-                                <div class="twentytwenty-handle" style={styles.handle} data-slider-offset={sliderOffset} ref={this.sliderHandle}>
-                                    <span class="twentytwenty-left-arrow"></span>
-                                    <span class="twentytwenty-right-arrow"></span>
-                                </div>
+                                <Overlay styles={styles} labels={labels} />
+                                <Handle styles={styles} offset={sliderOffset.int} />
                             </div>
                         </div>
                     </div>
