@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+/includes/modules/BeforeAfterImages/backups
 
 # production
 /scripts/bundle.min.js
