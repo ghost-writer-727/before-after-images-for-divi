@@ -49,19 +49,33 @@ class BeforeAfterImages extends Component {
     constructor(props){
 
         super(props);
-        this.state = { dimensions: {} };
-        this.onImgLoad = this.onImgLoad.bind(this);
+        this.state = {
+            bDimensions: {}, // Before Image
+            aDimensions: {} // After Image
+        };
+        this.onBeforeImgLoad = this.onBeforeImgLoad.bind(this);
+        this.onAfterImgLoad = this.onAfterImgLoad.bind(this);
 
         // Create callback refs
         this.container = React.createRef();
     }
-    onImgLoad({ target: img }) {
+    onBeforeImgLoad({ target: img }) {
         this.setState({
-            dimensions: {
-                imgOffsetHeight: img.offsetHeight,
-                imgOffsetWidth: img.offsetWidth,
-                imgNaturalHeight: img.offsetHeight,
-                imgNaturalWidth: img.offsetWidth,
+            bDimensions: {
+                beforeOffsetHeight: img.offsetHeight,
+                beforeOffsetWidth: img.offsetWidth,
+                beforeNaturalHeight: img.naturalHeight,
+                beforeNaturalWidth: img.naturalWidth,
+            }
+        });
+    }
+    onAfterImgLoad({ target: img }) {
+        this.setState({
+            aDimensions: {
+                afterOffsetHeight: img.offsetHeight,
+                afterOffsetWidth: img.offsetWidth,
+                afterNaturalHeight: img.naturalHeight,
+                afterNaturalWidth: img.naturalWidth,
             }
         });
     }
@@ -74,13 +88,14 @@ class BeforeAfterImages extends Component {
         afterImage.src = this.props.src_after;
         
         // Store the natural image dimensions.
-        const { imgOffsetWidth, imgOffsetHeight, imgNaturalWidth, imgNaturalHeight  } = this.state.dimensions;
+        const { beforeOffsetWidth, beforeOffsetHeight, beforeNaturalWidth, beforeNaturalHeight  } = this.state.bDimensions;
+        const { afterOffsetWidth, afterOffsetHeight, afterNaturalWidth, afterNaturalHeight  } = this.state.aDimensions;
 
         // Used in logic where the user selected the "Full size" size option.
-        //const fullSizeWidth = (bImage.naturalWidth <= aImage.naturalWidth) ? bImage.naturalWidth : aImage.naturalWidth;
-        //const fullSizeHeight = (bImage.naturalHeight <= aImage.naturalHeight) ? bImage.naturalHeight : aImage.naturalHeight;
-        const fullSizeWidth = imgNaturalWidth;
-        const fullSizeHeight = imgNaturalHeight;
+        const fullSizeWidth = (beforeNaturalWidth <= afterNaturalWidth) ? beforeNaturalWidth : afterNaturalWidth;
+        const fullSizeHeight = (beforeNaturalHeight <= afterNaturalHeight) ? beforeNaturalHeight : afterNaturalHeight;
+        //const fullSizeWidth = imgNaturalWidth;
+        //const fullSizeHeight = imgNaturalHeight;
         
         // Get labels from props.
         const labels = {
@@ -135,13 +150,15 @@ class BeforeAfterImages extends Component {
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
 
             // Check if image sources exists at the selected size. If so, update the source URL of the image obect.
-            // If the URL points to a real image, the natural width will not be 0.
-            if( beforeImage.naturalWidth !== 0 ){
+            // If the URL points to a real image, the natural width will not be undefined.
+            if( typeof(beforeImage.naturalWidth) !== 'undefined' ){
                 beforeImage.src = beforeImageAtSize.url;
             } else{
+                // The before image was available at the selected size, so add more logic for the app here to
+                // mimic the front-end behavior of the app in this condition.
                 sizeClass += 'sizeFull sizeFallback ';
             }
-            if( afterImage.naturalWidth !== 0 ){
+            if( typeof(afterImage.naturalWidth) !== 'undefined'  ){
                 afterImage.src = afterImageAtSize.url;
             } else{
                 sizeClass += 'sizeFull sizeFallback ';
@@ -204,12 +221,24 @@ class BeforeAfterImages extends Component {
         }
         return (
             <Fragment>
-                <div id="et-boc" ref={n => this.node = n}>
+                <div id="et-boc">
+                    <ul>
+                        <li>Full Size Width: {fullSizeWidth}</li>
+                        <li>Full Size Height: {fullSizeHeight}</li>
+                        <li>Before Offset Width: {beforeOffsetWidth}</li>
+                        <li>Before Offset Height: {beforeOffsetHeight}</li>
+                        <li>Before Natural Width: {beforeNaturalWidth}</li>
+                        <li>Before Natural Height: {beforeNaturalHeight}</li>
+                        <li>After Offset Width: {afterOffsetWidth}</li>
+                        <li>After Offset Height: {afterOffsetHeight}</li>
+                        <li>After Natural Width: {afterNaturalWidth}</li>
+                        <li>After Natural Height: {afterNaturalHeight}</li>
+                    </ul>
                     <div class="et-l">
                         <div class={wrapperClasses} style={styles.wrapper} ref={this.wrapper}>
                             <div class={containerClasses} style={styles.container} ref={this.container}>
                                 <Image
-                                    onLoad = {this.onImgLoad}
+                                    onLoad = {this.onBeforeImgLoad}
                                     src={beforeImage.src}
                                     alt=""
                                     className="twentytwenty-before"
@@ -218,7 +247,7 @@ class BeforeAfterImages extends Component {
                                     height={selectedHeight}
                                 />
                                 <Image
-                                    onLoad = {this.onImgLoad}
+                                    onLoad = {this.onAfterImgLoad}
                                     src={afterImage.src}
                                     alt=""
                                     className="twentytwenty-after"

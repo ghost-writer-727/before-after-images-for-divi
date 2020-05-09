@@ -2,10 +2,10 @@
 Contributors: boltonstudios
 Donate link: http://ko-fi.com/boltonstudios
 Tags: divi, before, after, slider, comparison
-Requires at least: 4.0.0
+Requires at least: 4.6.0
 Tested up to: 5.4.1
 Requires PHP: 7.1
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,10 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 2. Image size selection.
 
 == Changelog ==
+
+= 1.3.3 =
+* Bug Fix: Visual Builder module will render full-size image sliders upon on image load rather than waiting for the component to re-render.
+* Bug Fix: Fixed bug that caused slider handle to misalign with image clipping.
 
 = 1.3.2 =
 * Bug Fix: Fixed typos in text domain that affected internationalization.
