@@ -59,6 +59,7 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 = 1.3.3 =
 * Bug Fix: Visual Builder module will render full-size image sliders upon on image load rather than waiting for the component to re-render.
 * Bug Fix: Fixed bug that caused slider handle to misalign with image clipping.
+* Bug Fix: Fixed bug that prevented images from falling back to full-size in Visual Builder when selected size was not found.
 
 = 1.3.2 =
 * Bug Fix: Fixed typos in text domain that affected internationalization.
