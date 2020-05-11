@@ -108,10 +108,10 @@ class BeforeAfterImages extends Component {
         const offsetHeight = (beforeOffsetHeight <= afterOffsetHeight) ? beforeOffsetHeight : afterOffsetHeight;
 
         // Check if the user declined to select a size.
-        const didSelectSize = ( sizeSelected === ( undefined || 'undefined' || 'selectasize.' ) ) ? false : true;
+        const didSelectSize = (sizeSelected === undefined || sizeSelected === 'undefined' || sizeSelected === 'selectasize.') ? false : true;
         
         // Check if the user selected "Full Size."
-        const didSelectFullSize = ( sizeSelected === ( 'full' || 'fullsize.' ) ) ? true : false;
+        const didSelectFullSize = ( sizeSelected === 'full' || sizeSelected === 'fullsize.' ) ? true : false;
 
         // Initialize other variables.
         let selectedSizeAttributes = {
