@@ -45,10 +45,7 @@ class BeforeAfterImages extends Component {
 
         // Create callback refs
         this.container = React.createRef();
-        this.containerFullSize = {
-            width: 0,
-            height: 0
-        }
+        this.module = React.createRef();
     }
     onBeforeImgLoad({ target: img }) {
         let dimensions = {};
@@ -117,6 +114,8 @@ class BeforeAfterImages extends Component {
         // Used in logic where the user selected the "Full size" size option.
         const fullSizeWidth = (beforeNaturalWidth <= afterNaturalWidth) ? beforeNaturalWidth : afterNaturalWidth;
         const fullSizeHeight = (beforeNaturalHeight <= afterNaturalHeight) ? beforeNaturalHeight : afterNaturalHeight;
+        const offsetWidth = (beforeOffsetWidth <= afterOffsetWidth) ? beforeOffsetWidth : afterOffsetWidth;
+        const offsetHeight = (beforeOffsetHeight <= afterOffsetHeight) ? beforeOffsetHeight : afterOffsetHeight;
 
         // Check if the user declined to select a size.
         const didSelectSize = (sizeSelected === undefined || sizeSelected === 'undefined' || sizeSelected === 'selectasize.') ? false : true;
@@ -155,9 +154,19 @@ class BeforeAfterImages extends Component {
             var afterImageAtSize = createImageSrcAtSize( afterImage.src, sizeSelected )
 
             // Update vars with size values.
+            sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
             selectedWidth = beforeImageAtSize.width;
             selectedHeight = beforeImageAtSize.height;
-            sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
+            
+            // Adjust the size values if the user selected a size that exceeds the bounds of the module div container. 
+            if( this.module.current !== null ){
+                if( selectedWidth > this.module.current.clientWidth ){
+                    const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
+                    const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
+                    selectedWidth =  this.module.current.clientWidth;
+                    selectedHeight = Math.trunc( this.module.current.clientWidth * aspectRatio);
+                }
+            }
 
             // Check if image sources exists at the selected size. If so, update the source URL of the image obect.
             // If the URL points to a real image, the natural width will not be undefined.
@@ -193,28 +202,17 @@ class BeforeAfterImages extends Component {
 
         } else{
 
-            // User selected an image size: "full size".
+            // User selected the image size option: "full size".
 
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
 
             // Default: Use the natural dimensions of the image.
-            selectedWidth = ( beforeNaturalWidth < afterNaturalWidth ) ? beforeNaturalWidth : afterNaturalWidth;
-            selectedHeight = ( beforeNaturalHeight < afterNaturalHeight) ? beforeNaturalHeight : afterNaturalHeight;
+            selectedWidth = fullSizeWidth;
+            selectedHeight = fullSizeHeight;
 
-            // Set the image dimensions to the bounds of the container.
-            if( this.container.current !== null ){
-                
-                // Get the container and image attributes.
-                const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
-                const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
-                selectedWidth = this.container.current.clientWidth;
-                selectedHeight = Math.trunc(this.container.current.clientWidth * aspectRatio);
-            }
-
-            // Set the image dimensions to the bounds of the container.
+            // If the app recorded the Set the image dimensions to the bounds of the container.
             if( this.state.bOriginalDimensions.beforeOffsetWidth > 0 ){
-
-                // Get the container and image attributes.
+                
                 const bWidth = this.state.bOriginalDimensions.beforeOffsetWidth;
                 const bHeight = this.state.bOriginalDimensions.beforeOffsetHeight;
                 const aWidth = this.state.aOriginalDimensions.afterOffsetWidth;
@@ -224,6 +222,13 @@ class BeforeAfterImages extends Component {
 
                 selectedWidth = startingFullSizeWidth;
                 selectedHeight = startingFullSizeHeight;
+
+            } else if( this.container.current !== null ){
+                
+                const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
+                const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
+                selectedWidth = this.container.current.clientWidth;
+                selectedHeight = Math.trunc(this.container.current.clientWidth * aspectRatio);
             }
 
             // Update selectedSizeAttributes
@@ -240,7 +245,7 @@ class BeforeAfterImages extends Component {
         );
         return (
             <Fragment>
-                <div id="et-boc">
+                <div id="et-boc" className="baie-vb-module" ref={this.module}>
                     <ul>
                         <li>Full Size Width: {fullSizeWidth}</li>
                         <li>Full Size Height: {fullSizeHeight}</li>
