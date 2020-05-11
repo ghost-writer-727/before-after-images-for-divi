@@ -35,8 +35,8 @@ class BeforeAfterImages extends Component {
 
         super(props);
         this.state = {
-            bDimensions: {}, // Before Image
-            aDimensions: {} // After Image
+            bDimensions: {}, // Store before image dimensions.
+            aDimensions: {} // Store after image dimensions.
         };
         this.onBeforeImgLoad = this.onBeforeImgLoad.bind(this);
         this.onAfterImgLoad = this.onAfterImgLoad.bind(this);
@@ -96,10 +96,11 @@ class BeforeAfterImages extends Component {
         const sizeSelected = this.props.size;
         const alignment = this.props.align;
         
-        // Store the natural image dimensions.
+        // Store the natural image dimensions from the current state.
         const { beforeOffsetWidth, beforeOffsetHeight, beforeNaturalWidth, beforeNaturalHeight  } = this.state.bDimensions;
         const { afterOffsetWidth, afterOffsetHeight, afterNaturalWidth, afterNaturalHeight  } = this.state.aDimensions;
      
+        // Set width and height constants for the slider using whichever image is smaller.
         // Used in logic where the user selected the "Full size" size option.
         const fullSizeWidth = (beforeNaturalWidth <= afterNaturalWidth) ? beforeNaturalWidth : afterNaturalWidth;
         const fullSizeHeight = (beforeNaturalHeight <= afterNaturalHeight) ? beforeNaturalHeight : afterNaturalHeight;
@@ -107,10 +108,10 @@ class BeforeAfterImages extends Component {
         const offsetHeight = (beforeOffsetHeight <= afterOffsetHeight) ? beforeOffsetHeight : afterOffsetHeight;
 
         // Check if the user declined to select a size.
-        const didSelectSize = (sizeSelected === undefined || sizeSelected === 'undefined' || sizeSelected === 'selectasize.') ? false : true;
+        const didSelectSize = ( sizeSelected === ( undefined || 'undefined' || 'selectasize.' ) ) ? false : true;
         
         // Check if the user selected "Full Size."
-        const didSelectFullSize = ( sizeSelected === 'full' || sizeSelected === 'fullsize.' ) ? true : false;
+        const didSelectFullSize = ( sizeSelected === ( 'full' || 'fullsize.' ) ) ? true : false;
 
         // Initialize other variables.
         let selectedSizeAttributes = {
@@ -123,6 +124,7 @@ class BeforeAfterImages extends Component {
         let sizeClass = '';
         
         // Set some classes for the wrapper based on the image size.
+        // These will be used by style.css.
         if( sizeSelected === 'undefined' || sizeSelected === 'selectasize.' ){
             sizeClass = 'sizeUndefined';
         } else if( sizeSelected === 'full' || sizeSelected === 'fullsize.' ){
@@ -136,18 +138,18 @@ class BeforeAfterImages extends Component {
         // Reconstruct image URL to retrieve image at selected size.
         if ( didSelectSize === true && didSelectFullSize === false ){
 
-            // User selected an image size other than "full size".
+            // Condition: User selected an image size other than "full size".
             
-            // Get image source size and URL's at selected size.
+            // Get image URL at selected size, and extract width and height integers from selected size string.
             var beforeImageAtSize = createImageSrcAtSize( beforeImage.src, sizeSelected );
             var afterImageAtSize = createImageSrcAtSize( afterImage.src, sizeSelected )
 
-            // Update vars with size values.
+            // Update the size variables with size integers.
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
             selectedWidth = beforeImageAtSize.width;
             selectedHeight = beforeImageAtSize.height;
             
-            // Adjust the size values if the user selected a size that exceeds the bounds of the module div container. 
+            // Overwrite the size variables if the user selected a size that exceeds the bounds of the module div container. 
             if( this.module.current !== null ){
 
                 if( selectedWidth > this.module.current.clientWidth ){
@@ -158,7 +160,7 @@ class BeforeAfterImages extends Component {
                 }
             }
 
-            // Check if image sources exists at the selected size. If so, update the source URL of the image obect.
+            // Check if image sources exist at the selected size. If so, update the source URL of the image obect.
             // If the URL points to a real image, the natural width will not be undefined.
             if( typeof(offsetWidth) !== ( undefined || null || 'undefined' ) ){
                 beforeImage.src = beforeImageAtSize.url;
@@ -173,30 +175,30 @@ class BeforeAfterImages extends Component {
                 sizeClass += 'sizeFull sizeFallback ';
             }
 
-            // Update selectedSizeAttributes
+            // Update selectedSizeAttributes.
             selectedSizeAttributes.width = selectedWidth;
             selectedSizeAttributes.height = selectedHeight;
 
         } else if( didSelectSize === false && didSelectFullSize === false  ) {
 
-            // User did not select an image size.
+            // Condition: User did not select an image size.
 
-            // No size selected
+            // No size selected.
             sizeClass = getOrientationClasses( beforeImage, afterImage );
             selectedWidth = 376;
             selectedHeight = 225;
 
-            // Update selectedSizeAttributes
+            // Update selectedSizeAttributes.
             selectedSizeAttributes.width = selectedWidth;
             selectedSizeAttributes.height = selectedHeight;
 
         } else{
 
-            // User selected the image size option: "full size".
+            // Condition: User selected the "full size" image size option.
 
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
 
-            // Default: Use the natural dimensions of the image.
+            // Set width and height variables to the natural dimensions of the image by default.
             selectedWidth = fullSizeWidth;
             selectedHeight = fullSizeHeight;
 
