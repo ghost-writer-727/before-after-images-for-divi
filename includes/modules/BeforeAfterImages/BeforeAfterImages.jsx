@@ -36,52 +36,41 @@ class BeforeAfterImages extends Component {
         super(props);
         this.state = {
             bDimensions: {}, // Before Image
-            aDimensions: {}, // After Image
-            bOriginalDimensions: {}, // Before Image
-            aOriginalDimensions: {} // After Image
+            aDimensions: {} // After Image
         };
         this.onBeforeImgLoad = this.onBeforeImgLoad.bind(this);
         this.onAfterImgLoad = this.onAfterImgLoad.bind(this);
+        this.onError = this.onError.bind(this);
 
         // Create callback refs
         this.container = React.createRef();
         this.module = React.createRef();
     }
     onBeforeImgLoad({ target: img }) {
-        let dimensions = {};
-        const currentDimensions = {
+        const dimensions = {
             beforeOffsetHeight: img.offsetHeight,
             beforeOffsetWidth: img.offsetWidth,
             beforeNaturalHeight: img.naturalHeight,
             beforeNaturalWidth: img.naturalWidth,
         }
-        if( typeof(this.state.bOriginalDimensions.beforeOffsetWidth) === ("" || undefined || "undefined" || null) ){
-            dimensions = currentDimensions;
-        } else{
-            dimensions = this.state.bOriginalDimensions;
-        }
         this.setState({
-            bDimensions: currentDimensions,
-            bOriginalDimensions: dimensions
+            bDimensions: dimensions
         });
     }
     onAfterImgLoad({ target: img }) {
-        let dimensions = {};
-        const currentDimensions = {
+        const dimensions = {
             afterOffsetHeight: img.offsetHeight,
             afterOffsetWidth: img.offsetWidth,
             afterNaturalHeight: img.naturalHeight,
             afterNaturalWidth: img.naturalWidth,
         }
-        if( typeof(this.state.aOriginalDimensions.afterOffsetWidth) === ("" || undefined || "undefined" || null) ){
-            dimensions = currentDimensions;
-        } else{
-            dimensions = this.state.aOriginalDimensions;
-        }
         this.setState({
-            aDimensions: currentDimensions,
-            aOriginalDimensions: dimensions
+            aDimensions: dimensions
         });
+    }
+    onError({target: img}){
+        console.log("Error for img...");
+        console.log(img);
     }
     render() {
         
@@ -160,6 +149,7 @@ class BeforeAfterImages extends Component {
             
             // Adjust the size values if the user selected a size that exceeds the bounds of the module div container. 
             if( this.module.current !== null ){
+
                 if( selectedWidth > this.module.current.clientWidth ){
                     const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
                     const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
@@ -170,14 +160,14 @@ class BeforeAfterImages extends Component {
 
             // Check if image sources exists at the selected size. If so, update the source URL of the image obect.
             // If the URL points to a real image, the natural width will not be undefined.
-            if( typeof(beforeImage.naturalWidth) !== 'undefined' ){
+            if( typeof(offsetWidth) !== ( undefined || null || 'undefined' ) ){
                 beforeImage.src = beforeImageAtSize.url;
             } else{
                 // The before image was available at the selected size, so add more logic for the app here to
                 // mimic the front-end behavior of the app in this condition.
                 sizeClass += 'sizeFull sizeFallback ';
             }
-            if( typeof(afterImage.naturalWidth) !== 'undefined'  ){
+            if( typeof(fullSizeWidth) !== ( undefined || null || 'undefined' ) ){
                 afterImage.src = afterImageAtSize.url;
             } else{
                 sizeClass += 'sizeFull sizeFallback ';
@@ -210,25 +200,15 @@ class BeforeAfterImages extends Component {
             selectedWidth = fullSizeWidth;
             selectedHeight = fullSizeHeight;
 
-            // If the app recorded the Set the image dimensions to the bounds of the container.
-            if( this.state.bOriginalDimensions.beforeOffsetWidth > 0 ){
-                
-                const bWidth = this.state.bOriginalDimensions.beforeOffsetWidth;
-                const bHeight = this.state.bOriginalDimensions.beforeOffsetHeight;
-                const aWidth = this.state.aOriginalDimensions.afterOffsetWidth;
-                const aHeight = this.state.aOriginalDimensions.afterOffsetHeight;
-                const startingFullSizeWidth = (bWidth <= aWidth) ? bWidth : aWidth;
-                const startingFullSizeHeight = (bHeight <= aHeight) ? bHeight : aHeight;
+            // Adjust the size values if the full size image dimensions exceed the bounds of the module div container.
+            if( this.module.current !== null ){
 
-                selectedWidth = startingFullSizeWidth;
-                selectedHeight = startingFullSizeHeight;
-
-            } else if( this.container.current !== null ){
-                
-                const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
-                const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
-                selectedWidth = this.container.current.clientWidth;
-                selectedHeight = Math.trunc(this.container.current.clientWidth * aspectRatio);
+                if( selectedWidth > this.module.current.clientWidth ){
+                    const orientation = (fullSizeWidth >= fullSizeHeight) ? 'landscape' : 'portrait';
+                    const aspectRatio = (orientation === 'landscape') ? fullSizeHeight/fullSizeWidth : fullSizeWidth/fullSizeHeight;
+                    selectedWidth =  this.module.current.clientWidth;
+                    selectedHeight = Math.trunc( this.module.current.clientWidth * aspectRatio);
+                }
             }
 
             // Update selectedSizeAttributes
@@ -271,6 +251,7 @@ class BeforeAfterImages extends Component {
                             <div className="twentytwenty-container" style={styles.container} ref={this.container}>
                                 <img
                                     onLoad={this.onBeforeImgLoad}
+                                    onError={this.onError}
                                     src={beforeImage.src}
                                     alt="Before Image"
                                     className="twentytwenty-before"
@@ -280,6 +261,7 @@ class BeforeAfterImages extends Component {
                                 />
                                 <img
                                     onLoad={this.onAfterImgLoad}
+                                    onError={this.onError}
                                     src={afterImage.src}
                                     alt=""
                                     className="twentytwenty-after"
