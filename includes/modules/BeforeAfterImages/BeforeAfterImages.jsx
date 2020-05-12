@@ -36,17 +36,25 @@ class BeforeAfterImages extends Component {
         super(props);
         this.state = {
             bDimensions: {}, // Store before image dimensions.
-            aDimensions: {} // Store after image dimensions.
+            aDimensions: {}, // Store after image dimensions.
+            bError: false, // True if image missing at selected size.
+            aError: false,
+            bReloaded: false, // True if the image errored and reloaded at full size.
+            aReloaded: false,
+            bSizeSelected: this.props.size,
+            aSizeSelected: this.props.size
         };
         this.onBeforeImgLoad = this.onBeforeImgLoad.bind(this);
         this.onAfterImgLoad = this.onAfterImgLoad.bind(this);
-        this.onError = this.onError.bind(this);
+        this.onBeforeImgError = this.onBeforeImgError.bind(this);
+        this.onAfterImgError = this.onAfterImgError.bind(this);
 
         // Create callback refs
         this.container = React.createRef();
         this.module = React.createRef();
     }
     onBeforeImgLoad({ target: img }) {
+        const bReloaded = (this.state.bError) ? true : false;
         const dimensions = {
             beforeOffsetHeight: img.offsetHeight,
             beforeOffsetWidth: img.offsetWidth,
@@ -54,10 +62,17 @@ class BeforeAfterImages extends Component {
             beforeNaturalWidth: img.naturalWidth,
         }
         this.setState({
-            bDimensions: dimensions
+            bDimensions: dimensions,
+            bError: false,
+            bReloaded: bReloaded,
+            bSizeSelected: this.props.size
         });
+        console.log("BEFORE IMAGE FOUND.");
+        console.log("IMAGE SRC." + img.src);
+        console.log("SET bERROR to false.");
     }
     onAfterImgLoad({ target: img }) {
+        const aReloaded = (this.state.aError) ? true : false;
         const dimensions = {
             afterOffsetHeight: img.offsetHeight,
             afterOffsetWidth: img.offsetWidth,
@@ -65,18 +80,40 @@ class BeforeAfterImages extends Component {
             afterNaturalWidth: img.naturalWidth,
         }
         this.setState({
-            aDimensions: dimensions
+            aDimensions: dimensions,
+            aError: false,
+            aReloaded: aReloaded,
+            aSizeSelected: this.props.size
         });
+        console.log("AFTER IMAGE FOUND.");
+        console.log("IMAGE SRC. " + img.src);
+        console.log("SET aERROR to false.");
     }
-    onError({target: img}){
-        console.log("Error for img...");
-        console.log(img);
+    onBeforeImgError({target: img}){
+        console.log("BEFORE IMAGE ERROR.");
+        console.log("IMAGE SRC. " + img.src);
+        this.setState({
+            bError: true,
+            bSizeSelected: this.props.size
+        });
+        console.log("SET bERROR to true.");
+    }
+    onAfterImgError({target: img}){
+        console.log("AFTER IMAGE ERROR.");
+        console.log("IMAGE SRC. " + img.src);
+        this.setState({
+            aError: true,
+            aSizeSelected: this.props.size
+        });
+        console.log("SET aERROR to true.");
     }
     render() {
         
         /**
          * Get user-defined settings.
          */
+        console.log("THIS.STATE");
+        console.log(this.state);
 
         // Create images objects to store image source and other data.
         let beforeImage = new Image();
@@ -95,13 +132,23 @@ class BeforeAfterImages extends Component {
         }
         const sizeSelected = this.props.size;
         const alignment = this.props.align;
+
+        const beforeImageSizeChanged = ( sizeSelected === this.state.bSizeSelected ) ? false : true;
+        const afterImageSizeChanged = ( sizeSelected === this.state.aSizeSelected ) ? false : true;
         
         // Store the natural image dimensions from the current state.
         const { beforeOffsetWidth, beforeOffsetHeight, beforeNaturalWidth, beforeNaturalHeight  } = this.state.bDimensions;
         const { afterOffsetWidth, afterOffsetHeight, afterNaturalWidth, afterNaturalHeight  } = this.state.aDimensions;
-     
-        // Set width and height constants for the slider using whichever image is smaller.
-        // Used in logic where the user selected the "Full size" size option.
+        
+        const beforeImageError = this.state.bError ? true : false;
+        const afterImageError = this.state.aError ? true : false;
+        const beforeImageReloaded = this.state.bReloaded ? true : false;
+        const afterImageReloaded = this.state.aReloaded ? true : false;
+        
+        /**
+         *  Set width and height constants for the slider using whichever image is smaller.
+         * Used in logic where the user selected the "Full size" size option.
+         * */
         const fullSizeWidth = (beforeNaturalWidth <= afterNaturalWidth) ? beforeNaturalWidth : afterNaturalWidth;
         const fullSizeHeight = (beforeNaturalHeight <= afterNaturalHeight) ? beforeNaturalHeight : afterNaturalHeight;
         const offsetWidth = (beforeOffsetWidth <= afterOffsetWidth) ? beforeOffsetWidth : afterOffsetWidth;
@@ -123,8 +170,10 @@ class BeforeAfterImages extends Component {
         let selectedHeight = '';
         let sizeClass = '';
         
-        // Set some classes for the wrapper based on the image size.
-        // These will be used by style.css.
+        /** 
+         * Set some classes for the wrapper based on the image size.
+         * These will be used by style.css.
+         * */
         if( sizeSelected === 'undefined' || sizeSelected === 'selectasize.' ){
             sizeClass = 'sizeUndefined';
         } else if( sizeSelected === 'full' || sizeSelected === 'fullsize.' ){
@@ -148,8 +197,58 @@ class BeforeAfterImages extends Component {
             sizeClass = getOrientationClasses( beforeImage, afterImage, ['sizeFull'] );
             selectedWidth = beforeImageAtSize.width;
             selectedHeight = beforeImageAtSize.height;
+
+            console.log("SELECTED WIDTH...." + selectedWidth);
+            console.log("SELECTED HEIGHT...." + selectedHeight);
+            if( beforeImageSizeChanged === true ){
+
+                console.log(".....Before Image size changed.....");
+            } else{
+
+                console.log(".....Before Image size did not change.....");
+            }
+            if( afterImageSizeChanged === true ){
+
+                console.log(".....After Image size changed.....");
+            } else{
+
+                console.log(".....After Image size did not change.....");
+            }
+
+            /**
+             * Check if image sources exist at the selected size. If so, update the source URL of the image obect.
+             * If the image source does not exist at the selected size, beforeImageError will be true, 
+             * and the URL will not update.
+             * */
+            if( beforeImageError === false && beforeImageSizeChanged === true ){
+
+                beforeImage.src = beforeImageAtSize.url;
+                console.log("beforeImage.src is " + beforeImage.src);
+            } else{
+                console.log("beforeImage.src is " + beforeImage.src);
+                sizeClass += 'sizeFull sizeFallback ';
+            }
+            if( afterImageError === false && afterImageSizeChanged === true ){
+                afterImage.src = afterImageAtSize.url;
+                console.log("afterImage.src is " + afterImage.src);
+            } else{
+                console.log("afterImage.src is " + afterImage.src);
+                sizeClass += 'sizeFull sizeFallback ';
+            }
+
+            /**
+             * If either image is unavailable at the requested size, set width and height variables 
+             * to the natural dimensions of the smallest image.
+             * */
+            if( ( beforeImageReloaded === true || afterImageReloaded === true ) && (selectedWidth > fullSizeWidth) ){
+                selectedWidth = fullSizeWidth;
+                selectedHeight = fullSizeHeight;
+            }
             
-            // Overwrite the size variables if the user selected a size that exceeds the bounds of the module div container. 
+            /**
+             * If the user selected a size that exceeds the bounds of the module div container, 
+             * set width and height variables in proportion to the dimensions of the module div container.
+             * */
             if( this.module.current !== null ){
 
                 if( selectedWidth > this.module.current.clientWidth ){
@@ -158,21 +257,6 @@ class BeforeAfterImages extends Component {
                     selectedWidth =  this.module.current.clientWidth;
                     selectedHeight = Math.trunc( this.module.current.clientWidth * aspectRatio);
                 }
-            }
-
-            // Check if image sources exist at the selected size. If so, update the source URL of the image obect.
-            // If the URL points to a real image, the natural width will not be undefined.
-            if( typeof(offsetWidth) !== ( undefined || null || 'undefined' ) ){
-                beforeImage.src = beforeImageAtSize.url;
-            } else{
-                // The before image was available at the selected size, so add more logic for the app here to
-                // mimic the front-end behavior of the app in this condition.
-                sizeClass += 'sizeFull sizeFallback ';
-            }
-            if( typeof(fullSizeWidth) !== ( undefined || null || 'undefined' ) ){
-                afterImage.src = afterImageAtSize.url;
-            } else{
-                sizeClass += 'sizeFull sizeFallback ';
             }
 
             // Update selectedSizeAttributes.
@@ -225,10 +309,14 @@ class BeforeAfterImages extends Component {
             sliderOffset.int,
             sliderOffset.string
         );
+        const bErrorStr = (beforeImageError) ? "True" : "False";
+        const aErrorStr = (afterImageError) ? "True" : "False";
         return (
             <Fragment>
                 <div id="et-boc" className="baie-vb-module" ref={this.module}>
                     <ul>
+                        <li>Before Image Error: {bErrorStr}</li>
+                        <li>After Image Error: {aErrorStr}</li>
                         <li>Full Size Width: {fullSizeWidth}</li>
                         <li>Full Size Height: {fullSizeHeight}</li>
                         <li>Before Offset Width: {beforeOffsetWidth}</li>
@@ -253,7 +341,7 @@ class BeforeAfterImages extends Component {
                             <div className="twentytwenty-container" style={styles.container} ref={this.container}>
                                 <img
                                     onLoad={this.onBeforeImgLoad}
-                                    onError={this.onError}
+                                    onError={this.onBeforeImgError}
                                     src={beforeImage.src}
                                     alt="Before Image"
                                     className="twentytwenty-before"
@@ -263,7 +351,7 @@ class BeforeAfterImages extends Component {
                                 />
                                 <img
                                     onLoad={this.onAfterImgLoad}
-                                    onError={this.onError}
+                                    onError={this.onAfterImgError}
                                     src={afterImage.src}
                                     alt=""
                                     className="twentytwenty-after"
