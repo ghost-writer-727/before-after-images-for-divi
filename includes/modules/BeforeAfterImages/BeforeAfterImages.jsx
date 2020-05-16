@@ -38,7 +38,9 @@ class BeforeAfterImages extends Component {
         this.state = {
             bDimensions: {}, // Store before image dimensions.
             aDimensions: {}, // Store after image dimensions.
+            bCurrentSource: this.props.src_before,
             bFoundSource: null,
+            aCurrentSource: this.props.src_after,
             aFoundSource: null,
             bError: false, // True if image missing at selected size.
             aError: false,
@@ -74,6 +76,7 @@ class BeforeAfterImages extends Component {
         console.log("SET bERROR to false.");
         this.setState({
             bDimensions: dimensions,
+            bCurrentSource: this.props.src_before,
             bFoundSource: img.src,
             bError: false,
             bReloaded: bReloaded,
@@ -94,6 +97,7 @@ class BeforeAfterImages extends Component {
         console.log("SET aERROR to false.");
         this.setState({
             aDimensions: dimensions,
+            aCurrentSource: this.props.src_after,
             aFoundSource: img.src,
             aError: false,
             aReloaded: aReloaded,
@@ -140,12 +144,13 @@ class BeforeAfterImages extends Component {
          * Set the image object src URL to match the image src that the component
          * found if this state contains an image that was loaded successfully.
          */
+        /*
         if( this.state.bFoundSource ){
             beforeImage.src = this.state.bFoundSource;
         }
         if( this.state.aFoundSource ){
             afterImage.src = this.state.aFoundSource;
-        }
+        }*/
 
         // Get other props.
         const labels = {
@@ -163,23 +168,27 @@ class BeforeAfterImages extends Component {
          * The image URL's will load/reload if beforeImageSizeChanged or afterImageSizeChange is true.
          * The image URL's should load when the component first renders, and whenever the image size selection changes.
          */
-
         // Set beforeImageSizeChanged = true and afterImageSizeChanged = true when the component first renders.
         let beforeImageSizeChanged = true;
         let afterImageSizeChanged = true;
-        console.log("this.state.bSizeSelected is " + this.state.bSizeSelected);
+
         if( this.state.bSizeSelected ){
-            console.log("this.state.bSizeSelected is not null");
+            
             // Update these values conditionally if this.state contains a bSizeSeleted attribute.
             beforeImageSizeChanged = ( sizeSelected === this.state.bSizeSelected ) ? false : true;
         }
-        console.log("this.state.aSizeSelected is " + this.state.aSizeSelected);
+        
         if( this.state.aSizeSelected ){
-
-            console.log("this.state.aSizeSelected is not null");
+            
             // Update these values conditionally if this.state contains an aSizeSelected attribute.
             afterImageSizeChanged = ( sizeSelected === this.state.aSizeSelected ) ? false : true;
         }
+
+        /**
+         * 
+         */
+        const beforeImageChanged = ( this.props.src_before !== this.state.bCurrentSource ) ? true : false;
+        const afterImageChanged = ( this.props.src_after !== this.state.aCurrentSource ) ? true : false;
 
         // Store the natural image dimensions from the current state.
         const { beforeOffsetWidth, beforeOffsetHeight, beforeNaturalWidth, beforeNaturalHeight  } = this.state.bDimensions;
@@ -286,23 +295,36 @@ class BeforeAfterImages extends Component {
              * beforeImageError === false if the image sources exist at the selected size.
              * */
             if( beforeImageError === false && beforeImageSizeChanged === true ){
+
                 console.log("beforeImageError === " + beforeImageError );
                 console.log("beforeImageSizeChanged  === " + beforeImageSizeChanged );
                 console.log("beforeImageAtSize.url is " + beforeImageAtSize.url);
                 beforeImage.src = beforeImageAtSize.url;
                 console.log("beforeImage.src is " + beforeImage.src);
+
+            } else if( beforeImageChanged === false && this.state.bFoundSource ){
+                beforeImage.src = this.state.bFoundSource;
+                classes.size += ' sizeFull imgReloaded ';
             } else{
                 console.log("beforeImageError === " + beforeImageError );
                 console.log("beforeImageSizeChanged  === " + beforeImageSizeChanged );
                 console.log("beforeImage.src is " + beforeImage.src);
                 classes.size += ' sizeFull imgReloaded ';
             }
+
             if( afterImageError === false && afterImageSizeChanged === true ){
+
                 console.log("afterImageError === " + afterImageError );
                 console.log("afterImageSizeChanged  === " + afterImageSizeChanged );
                 console.log("afterImage.src is " + afterImageAtSize.url);
                 afterImage.src = afterImageAtSize.url;
                 console.log("afterImage.src is " + afterImage.src);
+
+            } else if( afterImageChanged === false && this.state.aFoundSource ){
+
+                afterImage.src = this.state.aFoundSource;
+                classes.size += ' sizeFull imgReloaded ';
+
             } else{
                 console.log("afterImageError === " + afterImageError );
                 console.log("afterImageSizeChanged  === " + afterImageSizeChanged );
