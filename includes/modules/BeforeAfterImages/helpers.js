@@ -117,7 +117,7 @@ export function getOrientationClasses( selectedWidth, selectedHeight, moduleSize
     let comparativeHeight = '';
     if( beforeHeightAtFullSizeWidth > afterHeightAtFullSizeWidth ){
         comparativeHeight = 'before-height-at-full-size-is-greater';
-    } else if( afterWidthAtFullSizeHeight < afterHeightAtFullSizeWidth ){
+    } else if( beforeHeightAtFullSizeWidth < afterHeightAtFullSizeWidth ){
         comparativeHeight = 'after-height-at-full-size-is-greater';
     } else{
         comparativeHeight = 'before-height-at-full-size-is-equal';

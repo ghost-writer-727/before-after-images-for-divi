@@ -13,7 +13,3 @@
 .sizeFull.is-landscape-size.before-height-at-full-size-is-greater img.twentytwenty-before {
   height: auto !important;
 }
-.imgReloaded.has-landscape-before-image img.twentytwenty-before {
-  max-width: 9999%;
-  width: auto;
-}
