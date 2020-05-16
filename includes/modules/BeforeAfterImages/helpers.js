@@ -10,6 +10,9 @@ export function createImageSrcAtSize( image, size ){
     sourceParsed.href = image;
     var sourcePathSplit = sourceParsed.pathname.split(".");
 
+    console.log("image is " + image);
+    console.log("size is " + size);
+
     var imageSource = '';
     imageSource = sourceParsed.protocol + '//';
     imageSource += sourceParsed.hostname;
@@ -21,6 +24,8 @@ export function createImageSrcAtSize( image, size ){
         width: width,
         height: height
     };
+
+    console.log("imageSource is " + imageSource);
     return imageObject;
 }
 // export function updateStyles( isSizeFull, width, height, imageAlignment, sliderOffset, sliderOffsetString ){
@@ -83,15 +88,45 @@ export function generateStyles( alignment, selectedSizeAttributes, sliderOffset,
     }
     return styles;
 }
-export function getOrientationClasses( beforeImage, afterImage, classes ){
+export function getOrientationClasses( selectedWidth, selectedHeight, moduleSizes, classes ){
     var classString = '';
     if( classes !== undefined ){
         for( var i = 0; i <= classes.length; i++){
             classString += ' ' + classes[i] + ' ';
         }
     }
-    classString += (beforeImage.height > beforeImage.width) ? " before-portrait " : " before-landscape ";
-    classString += (afterImage.height > afterImage.width) ? " after-portrait " : " after-landscape ";
+
+    const beforeOrientation = (moduleSizes.before.naturalWidth >= moduleSizes.before.naturalHeight) ? 'landscape' : 'portrait';
+    const beforeAspectRatio = (beforeOrientation === 'landscape') ? moduleSizes.before.naturalHeight/moduleSizes.before.naturalWidth : moduleSizes.before.naturalWidth/moduleSizes.before.naturalHeight;
+    const afterOrientation = (moduleSizes.after.naturalWidth >= moduleSizes.after.naturalHeight) ? 'landscape' : 'portrait';
+    const afterAspectRatio = (afterOrientation === 'landscape') ? moduleSizes.after.naturalHeight/moduleSizes.after.naturalWidth : moduleSizes.after.naturalWidth/moduleSizes.after.naturalHeight;
+    const beforeHeightAtFullSizeWidth = Math.trunc( moduleSizes.slider.fullSizeWidth * beforeAspectRatio);
+    const beforeWidthAtFullSizeHeight = Math.trunc( moduleSizes.slider.fullSizeHeight * beforeAspectRatio);
+    const afterHeightAtFullSizeWidth = Math.trunc( moduleSizes.slider.fullSizeWidth * afterAspectRatio);
+    const afterWidthAtFullSizeHeight = Math.trunc( moduleSizes.slider.fullSizeHeight * afterAspectRatio);
+
+    let comparativeWidth = '';
+    if( beforeWidthAtFullSizeHeight > afterWidthAtFullSizeHeight ){
+        comparativeWidth = 'before-width-at-full-size-is-greater';
+    } else if( beforeWidthAtFullSizeHeight < afterWidthAtFullSizeHeight ){
+        comparativeWidth = 'after-width-at-full-size-is-greater';
+    } else{
+        comparativeWidth = 'before-width-at-full-size-is-equal';
+    }
+    
+    let comparativeHeight = '';
+    if( beforeHeightAtFullSizeWidth > afterHeightAtFullSizeWidth ){
+        comparativeHeight = 'before-height-at-full-size-is-greater';
+    } else if( afterWidthAtFullSizeHeight < afterHeightAtFullSizeWidth ){
+        comparativeHeight = 'after-height-at-full-size-is-greater';
+    } else{
+        comparativeHeight = 'before-height-at-full-size-is-equal';
+    }
+    classString += " " + comparativeWidth + " ";
+    classString += " " + comparativeHeight + " ";
+    classString += (selectedHeight > selectedWidth) ? " is-portrait-size " : " is-landscape-size ";
+    classString += (moduleSizes.before.naturalHeight > moduleSizes.before.naturalWidth) ? " has-portrait-before-image " : " has-landscape-before-image ";
+    classString += (moduleSizes.after.naturalHeight > moduleSizes.after.naturalWidth) ? " has-portrait-after-image " : " has-landscape-after-image ";
     classString = classString.replace(/ +(?= )/g,'').trim(); // Replace unnecessary spaces.
     return classString;
 }

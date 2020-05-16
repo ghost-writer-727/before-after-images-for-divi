@@ -1,4 +1,19 @@
-.sizeFull.before-portrait.after-portrait img {
-    max-width: 9999%;
-    width: auto
+.imgReloaded.has-portrait-before-image img,
+.sizeFull.has-portrait-before-image img,
+.imgReloaded.has-portrait-after-image img,
+.sizeFull.has-portrait-after-image img {
+  max-width: 9999%;
+  width: auto;
+}
+.imgReloaded.is-landscape-size.after-height-at-full-size-is-greater img.twentytwenty-after,
+.sizeFull.is-landscape-size.after-height-at-full-size-is-greater img.twentytwenty-after {
+  height: auto !important;
+}
+.imgReloaded.is-landscape-size.before-height-at-full-size-is-greater img.twentytwenty-before,
+.sizeFull.is-landscape-size.before-height-at-full-size-is-greater img.twentytwenty-before {
+  height: auto !important;
+}
+.imgReloaded.has-landscape-before-image img.twentytwenty-before {
+  max-width: 9999%;
+  width: auto;
 }
