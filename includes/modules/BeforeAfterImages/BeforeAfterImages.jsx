@@ -71,9 +71,6 @@ class BeforeAfterImages extends Component {
             beforeNaturalHeight: img.naturalHeight,
             beforeNaturalWidth: img.naturalWidth,
         }
-        console.log("BEFORE IMAGE FOUND.");
-        console.log("IMAGE SRC." + img.src);
-        console.log("SET bERROR to false.");
         this.setState({
             bDimensions: dimensions,
             bCurrentSource: this.props.src_before,
@@ -92,9 +89,6 @@ class BeforeAfterImages extends Component {
             afterNaturalHeight: img.naturalHeight,
             afterNaturalWidth: img.naturalWidth,
         }
-        console.log("AFTER IMAGE FOUND.");
-        console.log("IMAGE SRC. " + img.src);
-        console.log("SET aERROR to false.");
         this.setState({
             aDimensions: dimensions,
             aCurrentSource: this.props.src_after,
@@ -105,32 +99,24 @@ class BeforeAfterImages extends Component {
         });
     }
     onBeforeImgError( {target: img} ){
-        console.log("BEFORE IMAGE ERROR.");
-        console.log("IMAGE SRC. " + img.src);
         this.setState({
             bFoundSource: null,
             bError: true,
             bSizeSelected: this.props.size
         });
-        console.log("SET bERROR to true.");
     }
     onAfterImgError( {target: img} ){
-        console.log("AFTER IMAGE ERROR.");
-        console.log("IMAGE SRC. " + img.src);
         this.setState({
             aFoundSource: null,
             aError: true,
             aSizeSelected: this.props.size
         });
-        console.log("SET aERROR to true.");
     }
     render() {
         
         /**
          * Get user-defined settings.
          */
-        console.log("THIS.STATE");
-        console.log(this.state);
 
         // Create images objects to store image source and other data.
         let beforeImage = new Image();
@@ -273,62 +259,24 @@ class BeforeAfterImages extends Component {
             selectedHeight = beforeImageAtSize.height;
             classes.size = getOrientationClasses( selectedWidth, selectedHeight, moduleSizes );
 
-            console.log("SELECTED WIDTH...." + selectedWidth);
-            console.log("SELECTED HEIGHT...." + selectedHeight);
-            if( beforeImageSizeChanged === true ){
-
-                console.log(".....Before Image size changed.....");
-            } else{
-
-                console.log(".....Before Image size did not change.....");
-            }
-            if( afterImageSizeChanged === true ){
-
-                console.log(".....After Image size changed.....");
-            } else{
-
-                console.log(".....After Image size did not change.....");
-            }
-
             /**
              * Update the source URL of the image obect if image sources exist at the selected size.
              * beforeImageError === false if the image sources exist at the selected size.
              * */
             if( beforeImageError === false && beforeImageSizeChanged === true ){
-
-                console.log("beforeImageError === " + beforeImageError );
-                console.log("beforeImageSizeChanged  === " + beforeImageSizeChanged );
-                console.log("beforeImageAtSize.url is " + beforeImageAtSize.url);
                 beforeImage.src = beforeImageAtSize.url;
-                console.log("beforeImage.src is " + beforeImage.src);
-
             } else if( beforeImageChanged === false && this.state.bFoundSource ){
                 beforeImage.src = this.state.bFoundSource;
                 classes.size += ' sizeFull imgReloaded ';
             } else{
-                console.log("beforeImageError === " + beforeImageError );
-                console.log("beforeImageSizeChanged  === " + beforeImageSizeChanged );
-                console.log("beforeImage.src is " + beforeImage.src);
                 classes.size += ' sizeFull imgReloaded ';
             }
 
             if( afterImageError === false && afterImageSizeChanged === true ){
-
-                console.log("afterImageError === " + afterImageError );
-                console.log("afterImageSizeChanged  === " + afterImageSizeChanged );
-                console.log("afterImage.src is " + afterImageAtSize.url);
                 afterImage.src = afterImageAtSize.url;
-                console.log("afterImage.src is " + afterImage.src);
-
             } else if( afterImageChanged === false && this.state.aFoundSource ){
-
                 afterImage.src = this.state.aFoundSource;
-                classes.size += ' sizeFull imgReloaded ';
-
             } else{
-                console.log("afterImageError === " + afterImageError );
-                console.log("afterImageSizeChanged  === " + afterImageSizeChanged );
-                console.log("afterImage.src is " + afterImage.src);
                 classes.size += ' sizeFull imgReloaded ';
             }
 
@@ -446,29 +394,6 @@ class BeforeAfterImages extends Component {
                             </div>
                         </div>
                     </div>
-                    <ul>
-                        <li>Before Image Error: {bErrorStr}</li>
-                        <li>After Image Error: {aErrorStr}</li>
-                        <li>Full Size Width: {moduleSizes.slider.fullSizeWidth}</li>
-                        <li>Full Size Height: {moduleSizes.slider.fullSizeHeight}</li>
-                        <li>Before Offset Width: {moduleSizes.before.offsetWidth}</li>
-                        <li>Before Offset Height: {moduleSizes.before.offsetHeight}</li>
-                        <li>Before Natural Width: {moduleSizes.before.naturalWidth}</li>
-                        <li>Before Natural Height: {moduleSizes.before.naturalHeight}</li>
-                        <li>After Offset Width: {moduleSizes.after.offsetWidth}</li>
-                        <li>After Offset Height: {moduleSizes.after.offsetHeight}</li>
-                        <li>After Natural Width: {moduleSizes.after.naturalWidth}</li>
-                        <li>After Natural Height: {moduleSizes.after.naturalHeight}</li>
-                    </ul>
-                    <ul>
-                        <li>Before Image Width: {beforeImage.width}</li>
-                        <li>Before Image Height: {beforeImage.height}</li>
-                        <li>Before Image Natural Width: {beforeImage.naturalWidth}</li>
-                        <li>Before Image Natural Height: {beforeImage.naturalHeight}</li>
-                        <li>Before Image Offset Width: {beforeImage.offsetWidth}</li>
-                        <li>Before Image Offset Height: {beforeImage.offsetHeight}</li>
-                    </ul>
-                </div>
             </Fragment>
         );
     }

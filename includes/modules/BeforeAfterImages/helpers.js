@@ -10,9 +10,6 @@ export function createImageSrcAtSize( image, size ){
     sourceParsed.href = image;
     var sourcePathSplit = sourceParsed.pathname.split(".");
 
-    console.log("image is " + image);
-    console.log("size is " + size);
-
     var imageSource = '';
     imageSource = sourceParsed.protocol + '//';
     imageSource += sourceParsed.hostname;
@@ -24,8 +21,7 @@ export function createImageSrcAtSize( image, size ){
         width: width,
         height: height
     };
-
-    console.log("imageSource is " + imageSource);
+    
     return imageObject;
 }
 // export function updateStyles( isSizeFull, width, height, imageAlignment, sliderOffset, sliderOffsetString ){
