@@ -764,7 +764,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 ( $size['crop'] ) ? $cropped = '(cropped).' : $cropped = '(best fit)';
                 $size_str = $width .' '. $height .' '. $cropped;
 
-                if( $size['width'] != 0 && $size['height'] != 0 && $cropped == '(cropped).' ){
+                if( $size['width'] !== 0 && $size['height'] !== 0 ){
 
                     $image_dimensions += [ strtolower( preg_replace('/\s*/', '', $size_str) ) => esc_html__( $size_str, 'before_after_images_for_divi') ];
                 }
