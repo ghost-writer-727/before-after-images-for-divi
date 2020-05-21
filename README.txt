@@ -16,6 +16,7 @@ Create before-and-after image sliders in the Divi Visual Builder easily.
 Create before-and-after image sliders in Divi easily with *Before + After Images for Divi*.
 
 * Compatible with the Visual Builder.
+* Compatible with lazy load plugins (excludes slider images).
 * Supports cropped image sizes (image size selection).
 * Mobile responsive.
 * Lightweight.
@@ -57,9 +58,10 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 == Changelog ==
 
 = 1.3.3 =
-* Bug Fix: Visual Builder module will render full-size image sliders upon on image load rather than waiting for the component to re-render.
-* Bug Fix: Fixed bug that caused slider handle to misalign with image clipping.
-* Bug Fix: Fixed bug that prevented images from falling back to full-size in Visual Builder when selected size was not found.
+* Bug Fix: Slider will display at default size when the user has not selected a size in the module settings.
+* Bug Fix: Visual Builder module will render full-size images on load rather than waiting for the component to re-render.
+* Bug Fix: Slider handle will better align with image clipping on the front-end slider.
+* Bug Fix: Visual Builder slider images will fall back to full-size when the selected image size is not found.
 
 = 1.3.2 =
 * Bug Fix: Fixed typos in text domain that affected internationalization.
