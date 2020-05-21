@@ -373,7 +373,7 @@ class BeforeAfterImages extends Component {
                                     onLoad={this.onBeforeImgLoad}
                                     onError={this.onBeforeImgError}
                                     src={beforeImage.src}
-                                    alt="Before Image"
+                                    alt=""
                                     className="twentytwenty-before"
                                     style={styles.beforeImage}
                                     width={selectedWidth}
