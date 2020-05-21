@@ -2,10 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Before + After Images for Divi 1.3.2\n"
+"Project-Id-Version: Before + After Images for Divi 1.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/before-after-"
 "images-for-divi\n"
-"POT-Creation-Date: 2020-05-04 08:07:14+00:00\n"
+"POT-Creation-Date: 2020-05-21 10:30:21+00:00\n"
 "PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Always Center Image On Mobile"
 msgstr ""
 
-#: includes/modules/BeforeAfterImages/BeforeAfterImages.php:772
+#: includes/modules/BeforeAfterImages/BeforeAfterImages.php:801
 msgid "Full size."
 msgstr ""
 

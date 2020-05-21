@@ -1,0 +1,22 @@
+.imgReloaded,
+.sizeFull{
+    &.has-portrait-before-image,
+    &.has-portrait-after-image{
+        img {
+            max-width: 9999%;
+            width: auto
+        }
+    }
+    &.is-landscape-size{
+        &.after-height-at-full-size-is-greater{
+            img.twentytwenty-after{
+                height: auto !important;
+            }
+        }
+        &.before-height-at-full-size-is-greater{
+            img.twentytwenty-before{
+                height: auto !important;
+            }
+        }
+    }
+}
