@@ -312,18 +312,17 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             // Set defalt values.
             $is_src_svg = false;
             $max_width = 0;
-
-            // Extract image properties.
-            $size = isset( $attributes[ 'size' ] ) ? $attributes[ 'size' ] : '';
+            $max_height = 0;
 
             // Get selected image source URL's and construct the HTML output for the images.
             $src_before = isset( $attributes['src_before'] ) ? $attributes['src_before'] : '';
             $src_after = isset( $attributes['src_after'] ) ? $attributes['src_after'] : '';
             $src_pair = array( $src_before, $src_after );
             $images = $this->get_images( $src_pair, $attributes );
+ 
             $images_output = '';
             foreach( $images as $image){
-
+                
                 // Concatenate string of image output
                 $images_output .= $image['output'];
 
@@ -333,12 +332,17 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     $max_width = $image[ 'size_width' ];
                 }
 
+                // Set max height to the height of the smallest image.
+                $max_height = $image[ 'size_height' ];
+                if( $image[ 'size_height' ] < $max_height ){
+                    $max_height = $image[ 'size_height' ];
+                }
+
                 // Set this vaule to true if either image is an SVG.
                 if( $image[ 'is_svg' ] ){
                     $is_src_svg = true;
                 };
             };
-            
             // Get standard Divi Image properties.
             $show_bottom_space       = $this->props['show_bottom_space'];
             $align                   = $this->get_alignment();
@@ -417,6 +421,20 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
             et_pb_responsive_options()->generate_responsive_css( $align_values, '%%order_class%%', '', $render_slug, '', 'alignment' );
 
             // Module classnames
+            if( isset( $attributes['size'] ) ){
+
+                switch( $attributes['size'] ){
+                    case "selectasize." :
+                        $this->add_classname( 'no-size-selected' );
+                    break;
+                    case "fullsize." :
+                        $this->add_classname( 'full-size-selected' );
+                    break;
+                    default :
+                        $this->add_classname( 'size-selected-'. $max_width .'x' . $max_height );
+                    break;
+                }
+            }
             if ( ! in_array( $animation_style, array( '', 'none' ) ) ) {
                 $this->add_classname( 'et-waypoint' );
             }
@@ -450,7 +468,8 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     %5$s
                     %4$s
                     %1$s
-                </div>',
+                </div>
+                ',
                 $images_output,
                 $this->module_classname( $render_slug ),
                 $this->module_id(),
@@ -538,9 +557,19 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     $src_file_extension = $src_path_parts['extension'];
 
                     // Get selected size.
-                    $size = 'Width: 376px. Height: 220px. (cropped).'; // default
-                    $size = isset( $attributes['size'] ) ? $attributes['size'] : $size; 
+                    $default_size = 'Width: '. $size_width .'px. Height: '. $size_height .'px. (cropped).'; // default
+                    $size = ( isset( $attributes['size'] ) )
+                    ? $attributes['size']
+                    : $default_size;
+                    
+                    // Use default size if no size selected.
+                    if( $size === 'selectasize.' ){
+                        $size = $default_size;
+                    }
+
+                    // Extract integers from selected size.
                     $size_explode = explode( '.', $size );
+                    
                     if( array_key_exists( 1, $size_explode ) ){
 
                         // If $size does not contain multiple strings, no size was selected and the named size will be set to a default size.
