@@ -2,7 +2,7 @@
 /*
 Plugin Name: Before + After Images for Divi
 Description: Create before-and-after image sliders in the Divi Visual Builder easily.
-Version:     1.3.2
+Version:     1.3.3
 Author:      Aaron Bolton
 Author URI:  https://www.boltonstudios.com
 License:     GPL2
