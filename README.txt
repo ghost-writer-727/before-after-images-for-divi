@@ -59,7 +59,6 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 
 = 1.3.4 =
 * Bug Fix: Changed maxWidth reference in front-end JS function to target the offsetWidth of an object rather than index.
-* Added best-fit sizes as options in size selection field.
 
 = 1.3.3 =
 * Bug Fix: Slider will display at default size when the user has not selected a size in the module settings.
