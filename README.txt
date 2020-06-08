@@ -5,7 +5,7 @@ Tags: divi, before, after, slider, comparison
 Requires at least: 4.6.0
 Tested up to: 5.4.1
 Requires PHP: 7.1
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ Plugin created by Aaron Bolton. *Before + After Images for Divi* brings the powe
 2. Image size selection.
 
 == Changelog ==
+
+= 1.3.5 =
+* Bug Fix: Reverted change in maxWidth reference that affected overlay.
 
 = 1.3.4 =
 * Bug Fix: Changed maxWidth reference in front-end JS function to target the offsetWidth of an object rather than index.

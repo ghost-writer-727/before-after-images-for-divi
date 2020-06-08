@@ -64,7 +64,7 @@ jQuery(function($) {
              * Max-Width
              * This value should be the width of the thinnest/shorest image.
              */
-            var maxWidth = (beforeImage.offsetWidth <= afterImage.offsetWidth) ? beforeImage.offsetWidth : afterImage.offsetWidth;
+            var maxWidth = (beforeImage[0].offsetWidth <= afterImage[0].offsetWidth) ? beforeImage[0].offsetWidth : afterImage[0].offsetWidth;
             $( this ).find( '.twentytwenty-overlay' ).css( 'max-width', maxWidth  );
         });
     }

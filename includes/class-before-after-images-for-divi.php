@@ -53,7 +53,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi' ) ) {
 
             $this->plugin_dir     = plugin_dir_path( __FILE__ );
             $this->plugin_dir_url = plugin_dir_url( $this->plugin_dir );
-            $this->version = '1.3.4';
+            $this->version = '1.3.5';
             $this->gettext_domain = 'before-after-images-for-divi';
             parent::__construct( $name, $args );
         }
