@@ -3,7 +3,7 @@ Contributors: boltonstudios
 Donate link: http://ko-fi.com/boltonstudios
 Tags: divi, before, after, slider, comparison
 Requires at least: 4.6.0
-Tested up to: 5.7.0
+Tested up to: 6.2.0
 Requires PHP: 7.1
 Stable tag: 1.3.5
 License: GPLv2 or later
