@@ -51,12 +51,17 @@ if ( ! class_exists( 'Before_After_Images_For_Divi' ) ) {
          */
         public function __construct( $name = 'before-after-images-for-divi', $args = array() ) {
 
-            $this->plugin_dir     = plugin_dir_path( __FILE__ );
+            // Update the Before_After_Images_For_Divi object property values.
+            $this->plugin_dir = plugin_dir_path( __FILE__ );
             $this->plugin_dir_url = plugin_dir_url( $this->plugin_dir );
             $this->version = '1.3.5';
             $this->gettext_domain = 'before-after-images-for-divi';
+
+            //  Construct the DiviExtension object.
             parent::__construct( $name, $args );
         }
     }
 }
+
+// Create a new Before_After_Images_For_Divi object.
 new Before_After_Images_For_Divi;

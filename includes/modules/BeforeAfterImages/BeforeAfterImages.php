@@ -54,12 +54,11 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
          */
         private $image_size_list;
 
-        // Initialize class
+        // Define the functions that run when the application creates a new Before_After_Images_For_Divi_Module object.
         public function init() {
-            
-            $this->name = esc_html__( 'Before + After Images', 'before-after-images-for-divi' );
-            $this->icon = '&';
-            $this->settings_modal_toggles = array(
+
+            // Initialize variables.
+            $settings_modal_toggles = array(
                 'general'  => array(
                     'toggles' => array(
                         'main_content' => esc_html__( 'Before + After Images', 'before-after-images-for-divi' )
@@ -87,7 +86,7 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                     ),
                 ),
             );
-            $this->advanced_fields = array(
+            $advanced_fields = array(
                 'margin_padding' => array(
                     'css' => array(
                         'important' => array( 'custom_margin' ),
@@ -122,6 +121,12 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
                 'text'                  => false,
                 'button'                => false,
             );
+            
+            // Update the object's inherited property values.
+            $this->name = esc_html__( 'Before + After Images', 'before-after-images-for-divi' );
+            $this->icon = '&';
+            $this->settings_modal_toggles = $settings_modal_toggles;
+            $this->advanced_fields = $advanced_fields;
             $this->image_size_list = $this->get_image_dimensions();
         }
         
@@ -803,4 +808,6 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
         }
     }
 }
+
+// Create a new Before_After_Images_For_Divi_Module object.
 new Before_After_Images_For_Divi_Module;
