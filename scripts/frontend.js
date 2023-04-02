@@ -25,7 +25,7 @@ jQuery( function( $ ){
             var afterImage = $( this ).find( '.baie_after_image' );
             var afterImageLabel = afterImage.attr( 'data-after-label' ); // Determined by options selected in module settings.
             var sliderOffsetString = beforeImage.attr( 'data-slider-offset' ); // Determined by options selected in module settings.
-            var sliderOffset = parseInt( sliderOffsetString )/100;
+            var sliderOffset = parseInt( sliderOffsetString ) / 100;
 
             // Overwrite "Before" label default if the user set the label in the module settings.
             baie_before_label = ( beforeImageLabel == '' ? baie_before_label : beforeImageLabel );
