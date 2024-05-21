@@ -15,6 +15,8 @@ if ( ! class_exists( 'Before_After_Images_For_Divi_Module' ) ) {
 
     class Before_After_Images_For_Divi_Module extends ET_Builder_Module {
 
+        public $icon;
+
         /**
          * The identifier for this module.
          *
